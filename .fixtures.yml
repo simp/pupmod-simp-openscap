@@ -1,0 +1,10 @@
+---
+fixtures:
+  symlinks:
+    openscap: "#{source_dir}"
+    auditd: "#{source_dir}/../auditd"
+    common: "#{source_dir}/../common"
+    concat: "#{source_dir}/../concat"
+    logrotate: "#{source_dir}/../logrotate"
+    rsyslog: "#{source_dir}/../rsyslog"
+    stdlib: "#{source_dir}/../stdlib"

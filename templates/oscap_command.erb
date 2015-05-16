@@ -1,0 +1,19 @@
+<%
+  cmd = ['oscap xccdf eval']
+  cmd << "--profile #{@scap_profile}"
+
+  result = "#{@logdir}/#{@fqdn}-ssg-results-#{@scap_profile}-`date +%Y%m%d%H%M%S`"
+  cmd << "--results #{result}.xml"
+  cmd << "--report #{result}.html"
+
+  if @scap_tailoring_file then
+    cmd << "--tailoring-file #{@scap_tailoring_file}"
+  end
+
+  if @fetch_remote_resources then
+    cmd << "--fetch-remote_resources"
+  end
+
+  cmd << "#{@ssg_base_dir}/#{@ssg_data_stream}"
+-%>
+<%= cmd.join(' ') %>
