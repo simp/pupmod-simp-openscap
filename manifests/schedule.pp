@@ -91,8 +91,8 @@ class openscap::schedule (
   include 'openscap'
 
   file { $logdir:
-    ensure  => directory,
-    mode    => '0600',
+    ensure => directory,
+    mode   => '0600',
   }
 
   cron { 'openscap':

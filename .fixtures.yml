@@ -1,10 +1,11 @@
 ---
 fixtures:
+  repositories:
+    auditd: "git://github.com/simp/pupmod-simp-auditd"
+    common: "git://github.com/simp/pupmod-simp-common"
+    concat: "git://github.com/simp/pupmod-simp-concat"
+    logrotate: "git://github.com/simp/pupmod-simp-logrotate"
+    rsyslog: "git://github.com/simp/pupmod-simp-rsyslog"
+    stdlib: "git://github.com/simp/puppetlabs-stdlib"
   symlinks:
     openscap: "#{source_dir}"
-    auditd: "#{source_dir}/../auditd"
-    common: "#{source_dir}/../common"
-    concat: "#{source_dir}/../concat"
-    logrotate: "#{source_dir}/../logrotate"
-    rsyslog: "#{source_dir}/../rsyslog"
-    stdlib: "#{source_dir}/../stdlib"
