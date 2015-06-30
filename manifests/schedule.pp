@@ -33,7 +33,7 @@
 #
 # [*ssg_base_dir*]
 #   Type: Absolute Path
-#   Default: "/usr/share/xml/scap/ssg/rhel${::operatingsystemmajrelease}"
+#   Default: "/usr/share/xml/scap/ssg/content"
 #
 #   The starting directory for all SSG content. Change this if you want to
 #   install your own SSG profiles.
@@ -77,7 +77,7 @@
 class openscap::schedule (
   $scap_profile = "xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream",
   $scap_tailoring_file = false,
-  $ssg_base_dir = "/usr/share/xml/scap/ssg/rhel${::operatingsystemmajrelease}",
+  $ssg_base_dir = "/usr/share/xml/scap/ssg/content",
   $ssg_data_stream = "ssg-rhel${::operatingsystemmajrelease}-ds.xml",
   $fetch_remote_resources = false,
   $logdir = '/var/log/openscap',
