@@ -1,0 +1,37 @@
+{
+  "name":    "<%= metadata.full_module_name %>",
+  "version": "4.2.0",
+  "author":  "Simp",
+  "summary": "Safely manages openscap",
+  "license": "Apache-2.0",
+  "source":  "https://github.com/simp/pupmod-simp-openscap",
+  "project_page": "https://github.com/simp/pupmod-simp-openscap",
+  "issues_url":   "https://simp-project.atlassian.net",
+  "tags": [ "simp","openscap" ],
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.1.0"
+    },
+    {
+      "name": "simp-common",
+      "version_requirement": ">= 4.1.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ]
+}
