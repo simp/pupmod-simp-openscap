@@ -1,14 +1,30 @@
 require 'spec_helper'
 
 describe 'openscap::schedule' do
+  context 'supported operating systems' do
+    on_supported_os.each do |os, facts|
+      context "on #{os}" do
+        base_facts = facts.merge({:spec_title => description})
 
-  base_facts = {
-    :operatingsystemmajrelease => '7'
-  }
-  let(:facts){base_facts}
+        describe 'base' do
+          let(:facts) { base_facts }
 
-  context 'base' do
-    it { should compile.with_all_deps }
-    it { should create_file('/var/log/openscap').with_ensure('directory') }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_class('openscap::schedule') }
+          it { is_expected.to create_class('openscap') }
+
+          it { is_expected.to create_file('/var/log/openscap') }
+          it { is_expected.to create_cron('openscap') }
+        end
+
+        describe 'with rotate_logs=true' do
+          let(:facts) { base_facts}
+          let(:params) {{ :rotate_logs => true }}
+
+          it { is_expected.to create_class('logrotate') }
+          it { is_expected.to create_logrotate__add('openscap') }
+        end
+      end
+    end
   end
 end
