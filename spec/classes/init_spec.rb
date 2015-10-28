@@ -1,12 +1,28 @@
 require 'spec_helper'
 
 describe 'openscap' do
+  context 'supported operating systems' do
+    on_supported_os.each do |os, facts|
+      context "on #{os}" do
+        base_facts = facts.merge({:spec_title => description})
 
-  it { should create_class('openscap') }
+        describe 'base' do
+          let(:facts) { base_facts }
 
-  context 'base' do
-    it { should compile.with_all_deps }
-    it { should contain_package('openscap-utils') }
-    it { should contain_package('scap-security-guide') }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_class('openscap') }
+
+          it { is_expected.not_to create_class('openscap::schedule') }
+          it { is_expected.to contain_package('openscap-utils').with( :ensure => 'latest') }
+          it { is_expected.to contain_package('scap-security-guide').with( :ensure => 'latest') }
+        end
+
+        describe 'with enable_schedule=true' do
+          let(:facts) { base_facts }
+          let(:params) { {:enable_schedule => true} }
+          it { is_expected.to create_class('openscap::schedule') }
+        end
+      end
+    end
   end
 end

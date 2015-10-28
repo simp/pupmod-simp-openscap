@@ -1,0 +1,34 @@
+HOSTS:
+  client6-1:
+    repos:
+      simp:
+        url: https://dl.bintray.com/simp/4.2.0-Beta2
+        gpgkeys:
+          - https://raw.githubusercontent.com/NationalSecurityAgency/SIMP/master/GPGKEYS/RPM-GPG-KEY-SIMP
+          - https://getfedora.org/static/0608B895.txt
+    roles:
+      - default
+      - master
+      - client
+    platform:   el-6-x86_64
+    box:        puppetlabs/centos-6.6-64-nocm
+    box_url:    https://vagrantcloud.com/puppetlabs/boxes/centos-6.6-64-nocm
+    hypervisor: vagrant
+
+  client7-1:
+    roles:
+      - client
+    repos:
+      simp:
+        url: https://dl.bintray.com/simp/5.1.0-Beta
+        gpgkeys:
+          - https://raw.githubusercontent.com/NationalSecurityAgency/SIMP/master/GPGKEYS/RPM-GPG-KEY-SIMP
+          - https://getfedora.org/static/352C64E5.txt
+    platform: el-7-x86_64
+    box: puppetlabs/centos-7.0-64-nocm
+    box_url: https://vagrantcloud.com/puppetlabs/boxes/centos-7.0-64-nocm
+    hypervisor: vagrant
+
+CONFIG:
+  log_level: verbose
+  type: foss
