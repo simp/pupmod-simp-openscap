@@ -90,6 +90,34 @@ class openscap::schedule (
 ) {
   include 'openscap'
 
+  if $scap_tailoring_file { validate_absolute_path($scap_tailoring_file) }
+  validate_absolute_path($ssg_base_dir)
+  validate_re($ssg_data_stream,'^.+\.xml$')
+  validate_bool($fetch_remote_resources)
+  validate_absolute_path($logdir)
+  validate_bool($rotate_logs)
+  unless $minute == '*' { validate_between($minute,0,59) }
+  unless $hour == '*' { validate_between($hour,0,23) }
+  unless $monthday == '*' { validate_between($monthday,1,31) }
+  unless $month == '*' { validate_between($month,1,12) }
+  unless $weekday == '*' { validate_between($weekday,0,7) }
+  $valid_profiles = [
+    'xccdf_org.ssgproject.content_profile_test',
+    'xccdf_org.ssgproject.content_profile_CS2',
+    'xccdf_org.ssgproject.content_profile_common',
+    'xccdf_org.ssgproject.content_profile_server',
+    'xccdf_org.ssgproject.content_profile_stig-rhel6-server-upstream',
+    'xccdf_org.ssgproject.content_profile_usgcb-rhel6-server',
+    'xccdf_org.ssgproject.content_profile_rht-ccp',
+    'xccdf_org.ssgproject.content_profile_CSCF-RHEL6-MLS',
+    'xccdf_org.ssgproject.content_profile_C2S',
+    'xccdf_org.ssgproject.content_profile_test',
+    'xccdf_org.ssgproject.content_profile_rht-ccp',
+    'xccdf_org.ssgproject.content_profile_common',
+    'xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream'
+  ]
+  validate_array_member($scap_profile,$valid_profiles)
+
   file { $logdir:
     ensure => directory,
     mode   => '0600',
@@ -121,32 +149,4 @@ class openscap::schedule (
     }
   }
 
-  $valid_profiles = [
-    'xccdf_org.ssgproject.content_profile_test',
-    'xccdf_org.ssgproject.content_profile_CS2',
-    'xccdf_org.ssgproject.content_profile_common',
-    'xccdf_org.ssgproject.content_profile_server',
-    'xccdf_org.ssgproject.content_profile_stig-rhel6-server-upstream',
-    'xccdf_org.ssgproject.content_profile_usgcb-rhel6-server',
-    'xccdf_org.ssgproject.content_profile_rht-ccp',
-    'xccdf_org.ssgproject.content_profile_CSCF-RHEL6-MLS',
-    'xccdf_org.ssgproject.content_profile_C2S',
-    'xccdf_org.ssgproject.content_profile_test',
-    'xccdf_org.ssgproject.content_profile_rht-ccp',
-    'xccdf_org.ssgproject.content_profile_common',
-    'xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream'
-  ]
-
-  validate_array_member($scap_profile,$valid_profiles)
-  if $scap_tailoring_file { validate_absolute_path($scap_tailoring_file) }
-  validate_absolute_path($ssg_base_dir)
-  validate_re($ssg_data_stream,'^.+\.xml$')
-  validate_bool($fetch_remote_resources)
-  validate_absolute_path($logdir)
-  validate_bool($rotate_logs)
-  unless $minute == '*' { validate_between($minute,0,59) }
-  unless $hour == '*' { validate_between($hour,0,23) }
-  unless $monthday == '*' { validate_between($monthday,1,31) }
-  unless $month == '*' { validate_between($month,1,12) }
-  unless $weekday == '*' { validate_between($weekday,0,7) }
 }

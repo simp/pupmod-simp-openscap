@@ -11,6 +11,9 @@
 class openscap(
   $enable_schedule = false
 ){
+
+  validate_bool($enable_schedule)
+
   if $enable_schedule { include 'openscap::schedule' }
 
   package { 'openscap-utils': ensure => 'latest' }
