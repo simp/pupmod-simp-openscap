@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab29df4_2518f4d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "Oddly enough—although there are fixes to the spec tests, module assets, and acceptance testing nodesets—there are no acceptance *tests* in this commit.  Perhaps a more accurate summary would be \"Add spec test?\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_a5096433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "It looks like you probably meant to prefix this with something like \"SIMP-579 #close #comment \"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 4
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_480a5d22",
+        "filename": "metadata.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "This should be \"simp-openscap\"",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_680f2131",
+        "filename": "metadata.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure the Forge will sanitize it, but we keep this lower case by convention.",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_a810594f",
+        "filename": "metadata.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "THANK YOU for updating this section with actual, relevant details!",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_c81d8d68",
+        "filename": "spec/acceptance/nodesets/fedora-20-x64.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "This is one case where the skeleton isn\u0027t a good example (will fix), but we should remove fedora from the nodesets.  We won\u0027t have a use for it for years (if ever).",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_082785b7",
+        "filename": "spec/classes/init_spec.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "This entire file is great.",
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_08006500",
+        "filename": "spec/classes/schedule_spec.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab29df4_28052911",
+        "filename": "spec/spec_helper_acceptance.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2015-10-30T05:52:33Z",
+      "side": 1,
+      "message": "FYI: SIMP-567 (up for review at https://review.gerrithub.io/#/c/250895/) fixes this issue within the rsyslog module.  \n\nIt doesn\u0027t affect what you\u0027ve got here (yet), but keep an eye out for sections like this—they won\u0027t be necessary after the 4.2.X/5.1.X release is merged.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 5
+      },
+      "revId": "e7fcacfb81d2581e45cfebe109242a036431878d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
