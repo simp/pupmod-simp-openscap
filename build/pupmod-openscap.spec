@@ -1,12 +1,13 @@
 Summary: OPENSCAP Puppet Module
 Name: pupmod-openscap
 Version: 4.2.0
-Release: 2
+Release: 3
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: pupmod-common >= 4.2.0-0
+Requires: pupmod-simplib >= 1.0.0-0
 Requires: pupmod-logrotate
 Requires: pupmod-rsyslog >= 4.1.0-1
 Requires: puppet >= 3.3.0
@@ -50,6 +51,9 @@ mkdir -p %{buildroot}/%{prefix}/openscap
 # Post uninstall stuff
 
 %changelog
+* Mon Nov 09 2015 Chris Tessmer <chris.tessmer@onypoint.com> - 4.2.0-3
+- migration to simplib and simpcat (lib/ only)
+
 * Fri Feb 27 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.0-2
 - Updated to use the new 'simp' environment.
 - Changed calls directly to /etc/init.d/rsyslog to '/sbin/service rsyslog' so

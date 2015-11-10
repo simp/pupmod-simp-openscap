@@ -3,7 +3,8 @@ fixtures:
   repositories:
     auditd: "git://github.com/simp/pupmod-simp-auditd"
     common: "git://github.com/simp/pupmod-simp-common"
-    concat: "git://github.com/simp/pupmod-simp-concat"
+    simplib: "git://github.com/simp/pupmod-simp-simplib"
+    simpcat: "git://github.com/simp/pupmod-simp-concat"
     logrotate: "git://github.com/simp/pupmod-simp-logrotate"
     rsyslog: "git://github.com/simp/pupmod-simp-rsyslog"
     stdlib: "git://github.com/simp/puppetlabs-stdlib"
