@@ -1,0 +1,25 @@
+* Mon Jul 11 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.1-0
+- Migration to semantic versioning and fix of the build system
+
+* Mon Nov 09 2015 Chris Tessmer <chris.tessmer@onypoint.com> - 4.2.0-3
+- migration to simplib and simpcat (lib/ only)
+
+* Fri Feb 27 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.0-2
+- Updated to use the new 'simp' environment.
+- Changed calls directly to /etc/init.d/rsyslog to '/sbin/service rsyslog' so
+  that both RHEL6 and RHEL7 are properly supported.
+
+* Fri Jan 16 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.0-1
+- Changed puppet-server requirement to puppet
+
+* Sat Nov 01 2014 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.0-0
+- Moved set_schedule to just schedule
+- Updated for the native release of OpenSCAP and the SCAP Security Guide as
+  include in RHEL6.6 and higher.
+
+* Mon Apr 07 2014 Kendall Moore <kmoore@keywcorp.com> - 4.1.0-0
+- Updated for hiera and puppet 3 compatibility.
+- Added spec tests.
+
+* Wed Sep 11 2013 Ralph Wright <rwright@onyxpoint.com> 1.0.0-1
+- Initial release
