@@ -1,4 +1,4 @@
-Requires: pupmod-simplib >= 1.0.0-0
 Requires: pupmod-logrotate
 Requires: pupmod-rsyslog >= 4.1.0-1
+Requires: pupmod-simplib >= 1.0.0-0
 Obsoletes: pupmod-openscap-test >= 0.0.1
