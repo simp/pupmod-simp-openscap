@@ -1,14 +1,26 @@
 ---
 fixtures:
   repositories:
-    auditd: "https://github.com/simp/pupmod-simp-auditd"
-    compliance_markup: "https://github.com/simp/pupmod-simp-compliance_markup"
-    logrotate: "https://github.com/simp/pupmod-simp-logrotate"
-    rsyslog: "https://github.com/simp/pupmod-simp-rsyslog"
-    simpcat: "https://github.com/simp/pupmod-simp-simpcat"
-    simplib: "https://github.com/simp/pupmod-simp-simplib"
+    auditd:
+      repo: https://github.com/simp/pupmod-simp-auditd
+      branch: 5.X
+    compliance_markup:
+      repo: https://github.com/simp/pupmod-simp-compliance_markup
+      branch: 5.X
+    logrotate:
+      repo: https://github.com/simp/pupmod-simp-logrotate
+      branch: 5.X
+    rsyslog:
+      repo: https://github.com/simp/pupmod-simp-rsyslog
+      branch: 5.X
+    simpcat:
+      repo: https://github.com/simp/pupmod-simp-simpcat
+      branch: 5.X
+    simplib:
+      repo: https://github.com/simp/pupmod-simp-simplib
+      branch: 5.X
     stdlib:
-      repo: "https://github.com/simp/puppetlabs-stdlib"
-      branch: "simp-master"
+      branch: 5.X
+      repo: https://github.com/simp/puppetlabs-stdlib
   symlinks:
     openscap: "#{source_dir}"
