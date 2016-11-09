@@ -3,7 +3,7 @@ Requires: pupmod-puppetlabs-stdlib < 5.0.0-0
 Requires: pupmod-puppetlabs-stdlib >= 4.9.0-0
 Requires: pupmod-simp-logrotate < 5.0.0-0
 Requires: pupmod-simp-logrotate >= 4.1.0-0
-Requires: pupmod-simp-rsyslog < 6.0.0-0
-Requires: pupmod-simp-rsyslog >= 5.1.0-0
+Requires: pupmod-simp-rsyslog < 7.0.0-0
+Requires: pupmod-simp-rsyslog >= 6.0.0-0
 Requires: pupmod-simp-simplib >= 2.0.0-0
 Requires: pupmod-simp-simplib < 3.0.0-0
