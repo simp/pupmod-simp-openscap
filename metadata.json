@@ -1,7 +1,7 @@
 {
   "name": "simp-openscap",
-  "version": "4.2.2",
-  "author": "Simp Team",
+  "version": "4.2.3",
+  "author": "SIMP Team",
   "summary": "Safely manages openscap",
   "license": "Apache-2.0",
   "source": "https://github.com/simp/pupmod-simp-openscap",
