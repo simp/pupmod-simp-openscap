@@ -7,7 +7,7 @@
 # S6.0.0  4.7  2.1.9
 ---
 language: ruby
-sudo: true
+sudo: false
 cache: bundler
 before_script:
   - bundle

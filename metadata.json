@@ -1,6 +1,6 @@
 {
   "name": "simp-openscap",
-  "version": "4.2.3",
+  "version": "5.0.0",
   "author": "SIMP Team",
   "summary": "Safely manages openscap",
   "license": "Apache-2.0",
@@ -12,10 +12,6 @@
     "openscap"
   ],
   "dependencies": [
-    {
-      "name": "simp/rsyslog",
-      "version_requirement": ">= 6.0.0 < 7.0.0"
-    },
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.9.0 < 5.0.0"
