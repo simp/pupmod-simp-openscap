@@ -27,9 +27,6 @@
 #      * xccdf_org.ssgproject.content_profile_common
 #      * xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream
 #
-# [*scap_tailoring_file*]
-#   Type: Absolute Path
-#   Default: ''
 #
 # [*ssg_base_dir*]
 #   Type: Absolute Path
@@ -75,27 +72,20 @@
 #  * Kendall Moore <kmoore@keywcorp.com>
 #
 class openscap::schedule (
-  $scap_profile = "xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream",
-  $scap_tailoring_file = false,
-  $ssg_base_dir = '/usr/share/xml/scap/ssg/content',
-  $ssg_data_stream = "ssg-rhel${::operatingsystemmajrelease}-ds.xml",
-  $fetch_remote_resources = false,
-  $logdir = '/var/log/openscap',
-  $rotate_logs = true,
-  $minute = '30',
-  $hour = '1',
-  $monthday = '*',
-  $month = '*',
-  $weekday = '1'
+  String                     $scap_profile           = "xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream",
+  Stdlib::Unixpath           $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
+  Pattern[/^.+\.xml$/]       $ssg_data_stream        = "ssg-rhel${::operatingsystemmajrelease}-ds.xml",
+  Boolean                    $fetch_remote_resources = false,
+  Stdlib::Unixpath           $logdir                 = '/var/log/openscap',
+  Boolean                    $rotate_logs            = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
+  Variant[Enum['*'],Integer]  $minute                 = 30,
+  Variant[Enum['*'],Integer]  $hour                   = 1,
+  Variant[Enum['*'],Integer]  $monthday               = '*',
+  Variant[Enum['*'],Integer]  $month                  = '*',
+  Variant[Enum['*'],Integer]  $weekday                = 1
 ) {
   include 'openscap'
 
-  if $scap_tailoring_file { validate_absolute_path($scap_tailoring_file) }
-  validate_absolute_path($ssg_base_dir)
-  validate_re($ssg_data_stream,'^.+\.xml$')
-  validate_bool($fetch_remote_resources)
-  validate_absolute_path($logdir)
-  validate_bool($rotate_logs)
   unless $minute == '*' { validate_between($minute,0,59) }
   unless $hour == '*' { validate_between($hour,0,23) }
   unless $monthday == '*' { validate_between($monthday,1,31) }

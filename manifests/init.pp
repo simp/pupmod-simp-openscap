@@ -9,7 +9,7 @@
 # * Ralph Wright <mailto:rwright@onyxpoint.com>
 #
 class openscap(
-  $enable_schedule = false
+  Boolean $enable_schedule = false
 ){
 
   validate_bool($enable_schedule)
