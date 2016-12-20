@@ -4,10 +4,9 @@ fixtures:
     auditd: https://github.com/simp/pupmod-simp-auditd
     logrotate: https://github.com/simp/pupmod-simp-logrotate
     rsyslog: https://github.com/simp/pupmod-simp-rsyslog
+    simp_options: https://github.com/simp/pupmod-simp-simp_options
     simpcat: https://github.com/simp/pupmod-simp-simpcat
     simplib: https://github.com/simp/pupmod-simp-simplib
-    stdlib:
-      repo: https://github.com/simp/puppetlabs-stdlib
-      branch: simp-master
+    stdlib:  https://github.com/simp/puppetlabs-stdlib
   symlinks:
     openscap: "#{source_dir}"

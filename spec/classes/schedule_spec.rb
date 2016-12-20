@@ -17,9 +17,9 @@ describe 'openscap::schedule' do
           it { is_expected.to create_cron('openscap') }
         end
 
-        describe 'with rotate_logs=true' do
+        describe 'with logrotate => true' do
           let(:facts) { base_facts}
-          let(:params) {{ :rotate_logs => true }}
+          let(:params) {{ :logrotate => true }}
 
           it { is_expected.to create_class('logrotate') }
           it { is_expected.to create_logrotate__add('openscap') }
