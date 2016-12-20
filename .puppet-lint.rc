@@ -1,5 +1,5 @@
 --log-format="%{path}:%{line}:%{check}:%{KIND}:%{message}"
 --relative
 --no-class_inherits_from_params_class-check
---no-80chars-check
+--no-140chars-check
 --no-trailing_comma-check

@@ -36,7 +36,7 @@
 # @param logdir
 #   Specifies output location.  Default is /var/log/openscap
 #
-# @param rotate_logs
+# @param logrotate
 #   If true, use logrotate to rotate the output logs.
 #
 # @param minute
@@ -51,10 +51,10 @@
 #
 class openscap::schedule (
   Openscap::Profile                $scap_profile           = "xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream",
-  Stdlib::Unixpath                 $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
+  Stdlib::Absolutepath             $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
   Pattern[/^.+\.xml$/]             $ssg_data_stream        = "ssg-rhel${::operatingsystemmajrelease}-ds.xml",
   Boolean                          $fetch_remote_resources = false,
-  Stdlib::Unixpath                 $logdir                 = '/var/log/openscap',
+  Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
   Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
   Variant[Enum['*'],Integer[0,59]] $minute                 = 30,
   Variant[Enum['*'],Integer[0,23]] $hour                   = 1,
