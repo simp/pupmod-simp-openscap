@@ -22,7 +22,7 @@ describe 'openscap::schedule' do
           let(:params) {{ :logrotate => true }}
 
           it { is_expected.to create_class('logrotate') }
-          it { is_expected.to create_logrotate__add('openscap') }
+          it { is_expected.to create_logrotate__rule('openscap') }
         end
       end
     end
