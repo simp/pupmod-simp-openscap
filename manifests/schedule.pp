@@ -2,7 +2,7 @@
 # on your system via cron.
 #
 # @param scap_profile
-#   Should be the name of the profile with the conent.
+#   The name of the profile with the content.
 #    Valid RHEL/CentOS 6 Choices:
 #      * xccdf_org.ssgproject.content_profile_test
 #      * xccdf_org.ssgproject.content_profile_CS2
