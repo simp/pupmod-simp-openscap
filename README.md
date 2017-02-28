@@ -60,7 +60,7 @@ additional setup is required.
 You can install openscap by:
 
 ```puppet
-include openscap
+include 'openscap'
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ The following will run a cron job on Monday at 1:30 AM and log to
 /var/log/openscap:
 
 ```puppet
-class {'openscap':
+class { 'openscap':
   enable_schedule => true,
 }
 ```
@@ -79,13 +79,13 @@ class {'openscap':
 OR
 
 ```puppet
-include openscap::schedule
+include 'openscap::schedule'
 ```
 
 ### I have a particular SCAP profile I want to use
 
 ```puppet
-class {'openscap::schedule':
+class { 'openscap::schedule':
   scap_profile => 'xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream',
 }
 ```
@@ -93,9 +93,9 @@ class {'openscap::schedule':
 ### I want to log daily at a set time
 
 ```puppet
-class {'openscap::schedule':
-  minute => 00,
-  hour => 22,
+class { 'openscap::schedule':
+  minute  => 00,
+  hour    => 22,
   weekday => '*',
 }
 ```
@@ -103,7 +103,7 @@ class {'openscap::schedule':
 ### I want to log on the first and fifteenth day of the month
 
 ```puppet
-class {'openscap::schedule':
+class { 'openscap::schedule':
   monthday => '1,15',
 }
 ```
@@ -111,7 +111,7 @@ class {'openscap::schedule':
 ### I want to log to a different directory
 
 ```puppet
-class {'openscap::schedule':
+class { 'openscap::schedule':
   logdir => '/opt/scaplogs',
 }
 ```
@@ -151,7 +151,7 @@ a check on your systems.
       * xccdf_org.ssgproject.content_profile_rht-ccp
       * xccdf_org.ssgproject.content_profile_CSCF-RHEL6-MLS
       * xccdf_org.ssgproject.content_profile_C2S
-    
+
     Valid RHEL/CentOS 7 Choice:
       * xccdf_org.ssgproject.content_profile_test
       * xccdf_org.ssgproject.content_profile_rht-ccp
