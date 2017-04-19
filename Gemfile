@@ -35,8 +35,7 @@ group :development do
 end
 
 group :system_tests do
-  # This patch is required to fix Beaker's broken `aio` handling
-  gem 'beaker' #, :git => 'https://github.com/trevor-vaughan/beaker.git', :branch => 'BKR-931'
+  gem 'beaker'
   gem 'beaker-rspec'
   gem 'simp-beaker-helpers', ENV.fetch('SIMP_BEAKER_HELPERS_VERSION', '~> 1.5')
 end
