@@ -87,11 +87,11 @@ class openscap::schedule (
     include '::logrotate'
 
     logrotate::rule { 'openscap':
-      log_files     => [ "${logdir}/*.xml" ],
-      missingok     => true,
-      rotate_period => 'daily',
-      rotate        => 3,
-      lastaction    => '/sbin/service rsyslog restart > /dev/null 2>&1 || true'
+      log_files                 => [ "${logdir}/*.xml" ],
+      missingok                 => true,
+      rotate_period             => 'daily',
+      rotate                    => 3,
+      lastaction_restart_logger => true
     }
   }
 
