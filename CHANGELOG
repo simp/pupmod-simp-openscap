@@ -1,10 +1,10 @@
 * Wed Apr 19 2017 Nick Markowski <nmarkowski@keywcorp.com> - 6.0.2-0
 - Updated logrotate to use new lastaction API
 
-* Thu Mar 17 Liz Nemsick <lnemsick-simp@gmail.com> 6.0.1-0
+* Fri Mar 17 2017 Liz Nemsick <lnemsick-simp@gmail.com> 6.0.1-0
 - Update puppet version in .travis.yaml
 
-* Wed Mar 01 Ryan Russell-Yates <ryan.russellyates@gmail.com> 6.0.1-0
+* Wed Mar 01 2017 Ryan Russell-Yates <ryan.russellyates@gmail.com> 6.0.1-0
 - Update README
 
 * Tue Dec 13 2016 Jeanne Greulich <jgreulich@onypoint.com> - 6.0.0-0
