@@ -1,5 +1,6 @@
 * Wed Apr 19 2017 Nick Markowski <nmarkowski@keywcorp.com> - 6.0.2-0
 - Updated logrotate to use new lastaction API
+- Confine puppet version in metadata.json
 
 * Fri Mar 17 2017 Liz Nemsick <lnemsick-simp@gmail.com> 6.0.1-0
 - Update puppet version in .travis.yaml
