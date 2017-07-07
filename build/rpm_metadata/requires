@@ -2,6 +2,6 @@ Obsoletes: pupmod-openscap-test >= 0.0.1
 Requires: pupmod-puppetlabs-stdlib < 5.0.0-0
 Requires: pupmod-puppetlabs-stdlib >= 4.13.1-0
 Requires: pupmod-simp-logrotate < 7.0.0-0
-Requires: pupmod-simp-logrotate >= 6.0.0-0
+Requires: pupmod-simp-logrotate >= 6.1.0-0
 Requires: pupmod-simp-simplib < 4.0.0-0
 Requires: pupmod-simp-simplib >= 3.1.0-0
