@@ -1,3 +1,7 @@
+* Wed Nov 28 2017 Brandon Riden <brandon.riden@onyxpoint.com> - 6.0.3
+-Changed Openscap::Profile type to use regex match on profiles rather than the Enum.
+-Added hieradata to module to specify scap_profile and ssg_data_stream based on OS (RedHat 6, RedHat 7, CentOS 6, and CentOS 7)
+
 * Wed Apr 19 2017 Nick Markowski <nmarkowski@keywcorp.com> - 6.0.2-0
 - Updated logrotate to use new lastaction API
 - Confine puppet version in metadata.json
