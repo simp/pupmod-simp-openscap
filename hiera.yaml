@@ -5,6 +5,5 @@ hierarchy:
   - name: "OS Major Release"
     backend: yaml
     path: "os/%{facts.os.name}-%{facts.os.release.major}"
-
   - name: "common"
     backend: yaml
