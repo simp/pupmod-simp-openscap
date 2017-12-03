@@ -17,7 +17,7 @@ group :test do
   gem 'puppet-lint-empty_string-check',   :require => false
   gem 'puppet-lint-trailing_comma-check', :require => false
   gem 'simp-rspec-puppet-facts', ENV.fetch('SIMP_RSPEC_PUPPET_FACTS_VERSION', '~> 2.0')
-  gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 4.0')
+  gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', ['>= 4.0', '< 6.0'])
 end
 
 group :development do
@@ -27,6 +27,7 @@ group :development do
   gem 'puppet-blacksmith'
   gem 'guard-rake'
   gem 'pry'
+  gem 'pry-byebug'
   gem 'pry-doc'
 
   # `listen` is a dependency of `guard`

@@ -1,6 +1,6 @@
 {
   "name": "simp-openscap",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "author": "SIMP Team",
   "summary": "Safely manages openscap",
   "license": "Apache-2.0",
@@ -46,5 +46,6 @@
       "name": "puppet",
       "version_requirement": ">= 4.7.0 < 5.0.0"
     }
-  ]
+  ],
+  "data_provider": "hiera"
 }

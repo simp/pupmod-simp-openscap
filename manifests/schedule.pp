@@ -50,9 +50,9 @@
 # @author Kendall Moore <kmoore@keywcorp.com>
 #
 class openscap::schedule (
-  Openscap::Profile                $scap_profile           = "xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream",
+  Openscap::Profile                $scap_profile,
+  Pattern[/^.+\.xml$/]             $ssg_data_stream,
   Stdlib::Absolutepath             $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
-  Pattern[/^.+\.xml$/]             $ssg_data_stream        = "ssg-rhel${::operatingsystemmajrelease}-ds.xml",
   Boolean                          $fetch_remote_resources = false,
   Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
   Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
