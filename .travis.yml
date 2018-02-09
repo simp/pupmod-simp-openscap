@@ -25,6 +25,10 @@ before_install:
   - rm -f Gemfile.lock
 
 jobs:
+  allow_failures:
+    # https://tickets.puppetlabs.com/browse/PUP-8418
+    - env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 5.0"
+
   include:
     - stage: spec
       rvm: 2.4.1
