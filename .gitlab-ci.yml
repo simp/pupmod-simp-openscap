@@ -9,93 +9,50 @@
 
 .setup_bundler_env: &setup_bundler_env
   before_script:
-    - gem install bundler
-    - rm -f Gemfile.lock
+    - bundle || gem install bundler
+    - rm -rf Gemfile.lock pkg/
     - bundle install --no-binstubs --path .vendor "${FLAGS[@]}"
 
-.syntax_checks: &syntax_checks
+.static_tests: &static_tests
   script:
     - bundle exec rake syntax
+    - bundle exec rake lint
     - bundle exec rake check:dot_underscore
     - bundle exec rake check:test_file
     - bundle exec rake pkg:check_version
-    - bundle exec rake compare_latest_tag
-
-.spec_tests: &spec_tests
-  script:
+    - bundle exec rake pkg:compare_latest_tag
     - bundle exec rake spec
+    - bundle exec puppet module build
 
 stages:
-  - syntax
   - unit
   - acceptance
   - deploy
 
-puppet-syntax:
-  stage: syntax
-  tags:
-    - docker
-  image: ruby:2.4
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *syntax_checks
-
 # Puppet 4
-unit-ruby-2.1.9:
+puppet-gemfile:
   stage: unit
   tags:
     - docker
   image: ruby:2.1.9
   <<: *cache_bundler
   <<: *setup_bundler_env
-  <<: *spec_tests
-
-# Puppet 5
-unit-ruby-2.4.1:
-  stage: unit
-  tags:
-    - docker
-  image: ruby:2.4
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *spec_tests
+  <<: *static_tests
 
 # For PE LTS Support
 # See: https://puppet.com/misc/puppet-enterprise-lifecycle
-puppet4.7-syntax:
-  stage: syntax
-  tags:
-    - docker
-  image: ruby:2.1
-  variables:
-    PUPPET_VERSION: '4.7'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *syntax_checks
-
-unit-puppet4.7-ruby-2.1:
+puppet-4.7:
   stage: unit
   tags:
     - docker
-  image: ruby:2.1
+  image: ruby:2.1.9
   variables:
     PUPPET_VERSION: '4.7'
   <<: *cache_bundler
   <<: *setup_bundler_env
-  <<: *spec_tests
+  <<: *static_tests
 
-puppet5-syntax:
-  stage: syntax
-  tags:
-    - docker
-  image: ruby:2.4
-  variables:
-    PUPPET_VERSION: '5.0'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *syntax_checks
-
-unit-puppet5-ruby-2.4:
+puppet-5:
   stage: unit
   tags:
     - docker
@@ -104,14 +61,28 @@ unit-puppet5-ruby-2.4:
     PUPPET_VERSION: '5.0'
   <<: *cache_bundler
   <<: *setup_bundler_env
-  <<: *spec_tests
-  allow_failure: true
+  <<: *static_tests
 
-acceptance-default:
-  stage: acceptance
-  tags:
-    - beaker
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  script:
-    - bundle exec rake beaker:suites[default]
+### There are no acceptance tests
+# default:
+#   stage: acceptance
+#   tags:
+#     - beaker
+#   <<: *cache_bundler
+#   <<: *setup_bundler_env
+#   variables:
+#     PUPPET_VERSION: '4.10'
+#   script:
+#     - bundle exec rake beaker:suites[default]
+#
+# default-fips:
+#   stage: acceptance
+#   tags:
+#     - beaker
+#   <<: *cache_bundler
+#   <<: *setup_bundler_env
+#   variables:
+#     BEAKER_fips: 'yes'
+#     PUPPET_VERSION: '4.10'
+#   script:
+#     - bundle exec rake beaker:suites[default]
