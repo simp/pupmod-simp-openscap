@@ -8,6 +8,8 @@ class openscap(
   Boolean $enable_schedule = false
 ){
 
+  simplib::assert_metadata($module_name)
+
   if $enable_schedule { include 'openscap::schedule' }
 
   package { 'openscap-utils':      ensure => 'latest' }

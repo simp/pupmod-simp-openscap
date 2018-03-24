@@ -25,22 +25,18 @@ before_install:
   - rm -f Gemfile.lock
 
 jobs:
-  allow_failures:
-    # https://tickets.puppetlabs.com/browse/PUP-8418
-    - env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 5.0"
-
   include:
-    - stage: spec
+    - stage: check
       rvm: 2.4.1
       env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 5"
       script:
         - bundle exec rake check:dot_underscore
         - bundle exec rake check:test_file
         - bundle exec rake pkg:check_version
-        - bundle exec rake lint
         - bundle exec rake metadata_lint
         - bundle exec rake pkg:compare_latest_tag
         - bundle exec rake pkg:create_tag_changelog
+        - bundle exec rake lint
         - bundle exec puppet module build
 
     - stage: spec
@@ -67,7 +63,6 @@ jobs:
       script:
         - bundle exec rake spec
 
-    # This needs to be last since we have an acceptance test
     - stage: deploy
       rvm: 2.4.1
       script:
@@ -75,6 +70,7 @@ jobs:
       before_deploy:
         - "export PUPMOD_METADATA_VERSION=`ruby -r json -e \"puts JSON.parse(File.read('metadata.json')).fetch('version')\"`"
         - '[[ $TRAVIS_TAG =~ ^simp-${PUPMOD_METADATA_VERSION}$|^${PUPMOD_METADATA_VERSION}$ ]]'
+
       deploy:
         - provider: releases
           api_key:
@@ -87,7 +83,3 @@ jobs:
           user: simp
           password:
             secure: "G6S8XPjTlqWHMhWtIGPXK0z294Y6kgdUi5G8ySWSCgj4hLuH9gCGgE6zzZTRAycFt08bux9AvIw65VEqDM1MVYYPJKI0PDr3o9/47mLZBVSwJfae2DBekTqb5/pH/WGdzc7olpQs/G+qpT5FKg4L1rVFnhPjcb2IEChU5lhNgY2I+mei4RXIk92o3X53c9MORyaHIaHW09QG0JXB+G4tmDQK8tX6hQoDbqEPKq8q7irSCHqm5o/ICAB35QAv6XaQU+WQ13rUbDKkrYkWtHb3zWFikBOj7AHHxEUFYjh8YZIpVaVNni9JH4rKVCx3igTdZvT3seEf97gniZ2mwCO0gc4E/RkDqR0nK/EzPhC1yAyWN+hlugc1B+XBxQOpfXIv6xelZwQww7aGCn/6g7RWFsTdp89Idp/X+hyH/NboDjBfaySJ0bR3IcXzkMxIzqQF1mxk9zyMgN4SkrK+Lf6Bh1EZPTkM5pjqSnFZhyVwJKzpf0++NNL9w/v4FU5BnJjqOmBhxJk0yukIY3y3RDKJKxAHh5hXFJ0bC31nBc3X0vchQmLqeZ9NjiZvwZBLCcdVMrAHTvW6KYAilBOxXMbywSV5i+7qdxniMe+Yuyf30pqQMdpUGcDtz3QJgO4DFeCdXWfDCU8vtPv/Lg+U7u5TsiljW/hBQ1rXHXo+dp7EpB0="
-          on:
-            tags: true
-            rvm: 2.4.1
-            condition: '($SKIP_FORGE_PUBLISH != true)'
