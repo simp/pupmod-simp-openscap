@@ -1,3 +1,8 @@
+* Fri Jun 15 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.5
+- Added Oracle Linux support
+- Added Puppet 5 support
+- Remove uneeded fixtures
+
 * Mon Feb 05 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.0.4
 - Asset update
 
