@@ -27,14 +27,11 @@ describe 'openscap::schedule' do
           it { is_expected.to create_class('logrotate') }
           it { is_expected.to create_logrotate__rule('openscap') }
 
-          if ['RedHat','CentOS'].include?(facts[:operatingsystem])
-            if facts[:operatingsystemmajrelease].to_s < '7'
-              it { should create_file('/etc/logrotate.d/openscap').with_content(/#{file_content_6}/)}
-            else
-              it { should create_file('/etc/logrotate.d/openscap').with_content(/#{file_content_7}/)}
-            end
+          if facts[:operatingsystemmajrelease].to_s < '7'
+            it { should create_file('/etc/logrotate.d/openscap').with_content(/#{file_content_6}/)}
+          else
+            it { should create_file('/etc/logrotate.d/openscap').with_content(/#{file_content_7}/)}
           end
-
         end
       end
     end
