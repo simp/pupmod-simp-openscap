@@ -1,3 +1,9 @@
+* Fri Jun 22 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0
+- Added an `oscap` fact for gathering the following information:
+  - OpenSCAP Version
+  - OpenSCAP Supported Specifications
+  - SCAP Profiles from /usr/share/xml/scap/*/content/*-ds.xml
+
 * Fri Jun 15 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.5
 - Added Oracle Linux support
 - Added Puppet 5 support
