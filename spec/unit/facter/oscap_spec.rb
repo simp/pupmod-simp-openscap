@@ -40,13 +40,14 @@ Probes: /usr/libexec/openscap
       ]).at_least_once
     end
 
-    it 'returns a version number' do
+    it 'returns a version number and path' do
       Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns('')
       Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns('')
 
       value = Facter.fact(:oscap).value
 
       expect(value).to be_a(Hash)
+      expect(value['path']).to eq('/bin/oscap')
       expect(value['version']).to eq('1.2.16')
     end
 

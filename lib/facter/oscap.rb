@@ -1,5 +1,6 @@
 # Returns available SCAP profiles as a Hash in the following format
 #
+# 'path'                     => '<path to oscap command>',
 # 'version'                  => '<oscap version number>',
 # 'supported_specifications' => {
 #   '<specification name>' => '<specification version>',
@@ -16,6 +17,7 @@
 #
 # @example SSG Output
 #
+# 'path'                     => '/bin/oscap',
 # 'version'                  => '1.2.16',
 # 'supported_specifications' => {
 #   'XCCDF' => '1.2',
@@ -36,7 +38,7 @@ Facter.add('oscap') do
   setcode do
     oscap = Facter::Core::Execution.which('oscap')
 
-    retval = {}
+    retval = { 'path' => oscap }
 
     # This is a big dump of information that we'll be pulling a few things from
     version_info = Facter::Core::Execution.execute("#{oscap} version")
@@ -48,7 +50,7 @@ Facter.add('oscap') do
 
     # Now get the supported versions of the various specs
     if version_info =~ %r{=+ Supported specifications =+(.*?)(^\s*$|=+)}m
-      retval['supported_specifications'] = Hash[$1.lines.map do |l|
+      retval['supported_specifications'] = $1.lines.map do |l|
         id, ver = l.split(/\s*Version:\s*/)
 
         if id && ver
@@ -56,7 +58,9 @@ Facter.add('oscap') do
         else
           nil
         end
-      end.compact]
+      end
+
+      retval['supported_specifications'] = Hash[retval['supported_specifications'].compact]
     end
 
     # Get the available profiles on the system
