@@ -1,18 +1,18 @@
-* Fri Jun 22 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0
+* Fri Jun 22 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0-0
 - Added an `oscap` fact for gathering the following information:
   - OpenSCAP Version
   - OpenSCAP Supported Specifications
   - SCAP Profiles from /usr/share/xml/scap/*/content/*-ds.xml
 
-* Fri Jun 15 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.5
+* Fri Jun 15 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.5-0
 - Added Oracle Linux support
 - Added Puppet 5 support
 - Remove uneeded fixtures
 
-* Mon Feb 05 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.0.4
+* Mon Feb 05 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.0.4-0
 - Asset update
 
-* Wed Nov 28 2017 Brandon Riden <brandon.riden@onyxpoint.com> - 6.0.3
+* Wed Nov 28 2017 Brandon Riden <brandon.riden@onyxpoint.com> - 6.0.3-0
 - Changed Openscap::Profile type to use regex match on profiles rather than the Enum.
 - Added hieradata to module to specify scap_profile and ssg_data_stream based
   on OS (RedHat 6, RedHat 7, CentOS 6, and CentOS 7)
