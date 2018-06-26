@@ -3,23 +3,15 @@
 #
 # @param scap_profile
 #   The name of the profile with the content.
-#    Valid RHEL/CentOS 6 Choices:
-#      * xccdf_org.ssgproject.content_profile_test
-#      * xccdf_org.ssgproject.content_profile_CS2
-#      * xccdf_org.ssgproject.content_profile_common
-#      * xccdf_org.ssgproject.content_profile_server
-#      * xccdf_org.ssgproject.content_profile_stig-rhel6-server-upstream
-#      * xccdf_org.ssgproject.content_profile_usgcb-rhel6-server
-#      * xccdf_org.ssgproject.content_profile_rht-ccp
-#      * xccdf_org.ssgproject.content_profile_CSCF-RHEL6-MLS
-#      * xccdf_org.ssgproject.content_profile_C2S
 #
-#    Valid RHEL/CentOS 7 Choice:
-#      * xccdf_org.ssgproject.content_profile_test
-#      * xccdf_org.ssgproject.content_profile_rht-ccp
-#      * xccdf_org.ssgproject.content_profile_common
-#      * xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream
+#   * Valid profiles change based on the target system. See the results of the
+#   `oscap` fact for valid targets.
 #
+# @param oscap_path
+#   The path to the `oscap` executable
+#
+#   * This is set to a sane default for most systems but will pick the value
+#      out of the `oscap` fact if it has been installed and is in the path.
 #
 # @param ssg_base_dir
 #   The starting directory for all SSG content. Change this if you want to
@@ -45,13 +37,19 @@
 # @param month
 # @param weekday
 #
-# @author Ralph Wright <rwright@onyxpoint.com>
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
-# @author Kendall Moore <kmoore@keywcorp.com>
+# @param force
+#   If set, ignore the fact that `oscap` does not appear to be installed on the
+#   target system and add the schedule anyway
+#
+#   * This should be used if you've installed `oscap` into a non-standard
+#     location that cannot be found by the fact in the default path
+#
+# @author https://github.com/simp/pupmod-simp-openscap/graphs/contributors
 #
 class openscap::schedule (
   Openscap::Profile                $scap_profile,
   Pattern[/^.+\.xml$/]             $ssg_data_stream,
+  Stdlib::Absolutepath             $oscap_path             = pick(fact('oscap.path'), '/bin/oscap'),
   Stdlib::Absolutepath             $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
   Boolean                          $fetch_remote_resources = false,
   Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
@@ -60,39 +58,73 @@ class openscap::schedule (
   Variant[Enum['*'],Integer[0,23]] $hour                   = 1,
   Variant[Enum['*'],Integer[1,31]] $monthday               = '*',
   Variant[Enum['*'],Integer[1,12]] $month                  = '*',
-  Variant[Enum['*'],Integer[0,7]]  $weekday                = 1
+  Variant[Enum['*'],Integer[0,7]]  $weekday                = 1,
+  Boolean                          $force                  = false
 ) {
   include '::openscap'
 
-  file { $logdir:
-    ensure => directory,
-    mode   => '0600',
+  if $force {
+    $_set_schedule = true
   }
+  else {
+    if $facts['oscap'] {
+      $_ssg_ds_basename = basename($ssg_data_stream, '.xml')
 
-  cron { 'openscap':
-    command  => template('openscap/oscap_command.erb'),
-    user     => 'root',
-    minute   => $minute,
-    hour     => $hour,
-    monthday => $monthday,
-    month    => $month,
-    weekday  => $weekday,
-    require  => [
-      Package['scap-security-guide'],
-      Package['openscap-utils']
-    ]
-  }
+      if !$facts['oscap']['profiles'] {
+        fail('No SCAP Profiles found')
+      }
+      elsif !$facts['oscap']['profiles'][$ssg_base_dir] {
+        fail("No SCAP Data Streams found under '${ssg_base_dir}'")
+      }
+      elsif !$facts['oscap']['profiles'][$ssg_base_dir][$_ssg_ds_basename] {
+        fail("Could not find SCAP Data Stream '${ssg_data_stream}'")
+      }
+      elsif !$facts['oscap']['profiles'][$ssg_base_dir][$_ssg_ds_basename][$scap_profile] {
+        fail("Could not find SCAP Profile '${scap_profile}'")
+      }
+      else {
+        $_set_schedule = true
+      }
+    }
+    else {
+      notify { 'Could not find oscap binary on the system, not setting schedule':
+        loglevel => 'warning'
+      }
 
-  if $logrotate {
-    include '::logrotate'
-
-    logrotate::rule { 'openscap':
-      log_files                 => [ "${logdir}/*.xml" ],
-      missingok                 => true,
-      rotate_period             => 'daily',
-      rotate                    => 3,
-      lastaction_restart_logger => true
+      $_set_schedule = false
     }
   }
 
+  if $_set_schedule {
+    file { $logdir:
+      ensure => directory,
+      mode   => '0600',
+    }
+
+    cron { 'openscap':
+      command  => template('openscap/oscap_command.erb'),
+      user     => 'root',
+      minute   => $minute,
+      hour     => $hour,
+      monthday => $monthday,
+      month    => $month,
+      weekday  => $weekday,
+      require  => [
+        Package['scap-security-guide'],
+        Package['openscap-utils']
+      ]
+    }
+
+    if $logrotate {
+      include '::logrotate'
+
+      logrotate::rule { 'openscap':
+        log_files                 => [ "${logdir}/*.xml" ],
+        missingok                 => true,
+        rotate_period             => 'daily',
+        rotate                    => 3,
+        lastaction_restart_logger => true
+      }
+    }
+  }
 }

@@ -63,33 +63,33 @@ Facter.add('oscap') do
       retval['supported_specifications'] = Hash[retval['supported_specifications'].compact]
     end
 
+    Encoding.default_external = Encoding::UTF_8
+
     # Get the available profiles on the system
     Dir.glob('/usr/share/xml/scap/*/content/*-ds.xml').each do |data_stream|
-      path = File.dirname(data_stream)
-      ds = File.basename(data_stream, '.xml')
+      begin
+        path = File.dirname(data_stream)
+        ds = File.basename(data_stream, '.xml')
 
-      oscap_info = Facter::Core::Execution.execute("#{oscap} info --profiles #{data_stream}").strip
+        # Full XML processing takes too long so we'll do it slightly more efficiently
+        entries = File.read(data_stream).scan(%r{(?:<(?:.+:)?Profile\s+id="(.+)">|<(?:.+:)?title\s+.+>(.*?)</title>)})
 
-      next unless (oscap_info && !oscap_info.empty?)
+        if entries && !entries.empty?
+          entries = entries.flatten.compact
 
-      retval['profiles'] ||= {}
-      retval['profiles'][path] ||= {}
-      retval['profiles'][path][ds] ||= {}
+          entries.each_with_index do |x,i|
+            if x.start_with?('xccdf_org.ssg')
 
-      oscap_info.lines.each do |line|
-        profile_id, *profile_desc = line.split(':')
+              retval['profiles'] ||= {}
+              retval['profiles'][path] ||= {}
+              retval['profiles'][path][ds] ||= {}
 
-        next unless (profile_id && profile_desc)
-        profile_id.strip!
-
-        # In case some description has a colon in it
-        profile_desc = Array(profile_desc).join(':')
-        profile_desc.strip!
-
-        next if profile_desc.empty?
-        next if profile_id.empty?
-
-        retval['profiles'][path][ds][profile_id.strip] = profile_desc.strip
+              retval['profiles'][path][ds][x] = entries[i+1]
+            end
+          end
+        end
+      rescue => e
+        Facter.log_exception("oscap: Error processing data stream '#{data_stream}': #{e}")
       end
     end
 

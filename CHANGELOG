@@ -1,8 +1,11 @@
-* Fri Jun 22 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0-0
+* Mon Jun 25 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0-0
 - Added an `oscap` fact for gathering the following information:
   - OpenSCAP Version
   - OpenSCAP Supported Specifications
   - SCAP Profiles from /usr/share/xml/scap/*/content/*-ds.xml
+- Added logic to ensure that a valid profile is chosen based on the new fact
+- Added unit and acceptance tests
+- Updated data to reflect valid choices on a default EL6 load
 
 * Fri Jun 15 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.0.5-0
 - Added Oracle Linux support

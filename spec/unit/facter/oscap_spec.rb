@@ -138,8 +138,6 @@ xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
       value = Facter.fact(:oscap).value
       expect(value['profiles']).to be_a(Hash)
 
-      expect(value['profiles']).to be_a(Hash)
-
       expect(value['profiles']['/usr/share/xml/scap/ssg/content']).to be_a(Hash)
 
       expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']).to be_a(Hash)

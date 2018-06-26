@@ -14,5 +14,4 @@ class openscap(
 
   package { 'openscap-utils':      ensure => 'latest' }
   package { 'scap-security-guide': ensure => 'latest' }
-
 }
