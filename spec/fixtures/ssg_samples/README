@@ -1,0 +1,4 @@
+These samples are pulled directly from the SSG packages as distributed for the
+target operating systems.
+
+They have been renamed to make it easier to match on `osfamily`.

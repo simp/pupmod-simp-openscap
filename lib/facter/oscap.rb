@@ -63,6 +63,7 @@ Facter.add('oscap') do
       retval['supported_specifications'] = Hash[retval['supported_specifications'].compact]
     end
 
+    # The XML can have anything in there
     Encoding.default_external = Encoding::UTF_8
 
     # Get the available profiles on the system
@@ -89,7 +90,7 @@ Facter.add('oscap') do
           end
         end
       rescue => e
-        Facter.log_exception("oscap: Error processing data stream '#{data_stream}': #{e}")
+        Facter.log_exception(e, "oscap: Error processing data stream '#{data_stream}'")
       end
     end
 

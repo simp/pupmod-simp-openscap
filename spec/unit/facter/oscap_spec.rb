@@ -32,18 +32,18 @@ Probes: /usr/libexec/openscap
     )
   end
 
-  context 'with a valid environment' do
-    before :each do
-      Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns([
-        '/usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml',
-        '/usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml'
-      ]).at_least_once
+  before :each do
+    @data_streams = {}
+
+    Dir.glob(File.join(fixtures, 'ssg_samples', "*-ds.xml")).each do |stream|
+      @data_streams['/usr/share/xml/scap/ssg/content/' + File.basename(stream)] = IO.read(stream)
     end
 
-    it 'returns a version number and path' do
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns('')
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns('')
+    Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns(@data_streams.keys).at_least_once
+  end
 
+  context 'with a valid environment' do
+    it 'returns a version number and path' do
       value = Facter.fact(:oscap).value
 
       expect(value).to be_a(Hash)
@@ -52,9 +52,6 @@ Probes: /usr/libexec/openscap
     end
 
     it 'returns a set of supported specifications' do
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns('')
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns('')
-
       value = Facter.fact(:oscap).value
 
       expect(value).to be_a(Hash)
@@ -63,133 +60,70 @@ Probes: /usr/libexec/openscap
     end
 
     it 'returns a valid hash of all available profiles' do
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-xccdf_org.ssgproject.content_profile_CS2:Example Server Profile
-        EOM
-      )
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-xccdf_org.ssgproject.content_profile_pci-dss:PCI-DSS v3 Control Baseline for CentOS Linux 7
-        EOM
-     )
-
-      value = Facter.fact(:oscap).value
-
-      expect(value).to be_a(Hash)
-      expect(value['profiles']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']).to be_a(Hash)
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']['xccdf_org.ssgproject.content_profile_pci-dss']).to eq('PCI-DSS v3 Control Baseline for CentOS Linux 7')
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
-    end
-
-    it 'returns a correct answer' do
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-xccdf_org.ssgproject.content_profile_test:This has:a colon
-        EOM
-      )
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-        EOM
-     )
+      @data_streams.each_pair do |stream, content|
+        File.stubs(:read).with(stream).returns(content)
+      end
 
       value = Facter.fact(:oscap).value
 
       expect(value).to be_a(Hash)
       expect(value['profiles']).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']).to be_a(Hash)
+      ds_level = value['profiles']['/usr/share/xml/scap/ssg/content']
+      expect(ds_level).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
+      ds_level.each_pair do |ds, profile|
+        expect(profile).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_test']).to eq('This has:a colon')
+        profile.each_pair do |k, v|
+          expect(k).to match(/^xccdf_org\.ssgproject\./)
+          if v
+            expect(v).to be_a(String)
+          end
+        end
+      end
     end
   end
 
-  context 'with malformed content' do
+  context 'with random invalid oscap output' do
     it 'returns only the valid portions' do
-      Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns([
-        '/usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml',
-        '/usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml'
-      ]).at_least_once
+      i = 0
+      @data_streams.each_pair do |stream, content|
+        if ( (i % 2) == 1 )
+          File.stubs(:read).with(stream).returns("Look, some random garbage with Profile and title!")
+        else
+          File.stubs(:read).with(stream).returns(content)
+        end
 
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-xccdf_org.ssgproject.content_profile_CS2
-        EOM
-      )
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-        EOM
-     )
-
-      value = Facter.fact(:oscap).value
-      expect(value['profiles']).to be_a(Hash)
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']).to be_a(Hash)
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_CS2']).to be_nil
-    end
-  end
-
-  context 'with invalid oscap output' do
-    it 'returns only the valid portions' do
-      Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns([
-        '/usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml',
-        '/usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml'
-      ]).at_least_once
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns(<<-EOM
-xccdf_org.ssgproject.content_profile_standard:Standard System Security Profile
-        EOM
-      )
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns("\n")
+        i += 1
+      end
 
       value = Facter.fact(:oscap).value
 
       expect(value).to be_a(Hash)
       expect(value['profiles']).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']).to be_a(Hash)
+      ds_level = value['profiles']['/usr/share/xml/scap/ssg/content']
+      expect(ds_level).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos7-ds']).to be_nil
+      ds_level.each_pair do |ds, profile|
+        expect(profile).to be_a(Hash)
 
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']).to be_a(Hash)
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_standard']).to eq('Standard System Security Profile')
-
-      expect(value['profiles']['/usr/share/xml/scap/ssg/content']['ssg-centos6-ds']['xccdf_org.ssgproject.content_profile_CS2']).to be_nil
+        profile.each_pair do |k, v|
+          expect(k).to match(/^xccdf_org\.ssgproject\./)
+          if v
+            expect(v).to be_a(String)
+          end
+        end
+      end
     end
   end
 
   context 'with all invalid oscap output' do
     it 'returns only the valid portions' do
-      Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns([
-        '/usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml',
-        '/usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml'
-      ]).at_least_once
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos6-ds.xml').returns("\n")
-
-      Facter::Core::Execution.stubs(:execute).with('/bin/oscap info --profiles /usr/share/xml/scap/ssg/content/ssg-centos7-ds.xml').returns("\n")
+      @data_streams.each_pair do |stream, content|
+        File.stubs(:read).with(stream).returns("\n")
+      end
 
       value = Facter.fact(:oscap).value
 
