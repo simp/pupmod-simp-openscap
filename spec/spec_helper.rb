@@ -31,7 +31,6 @@ default_hiera_config =<<-EOM
   :datadir: "stub"
 :hierarchy:
   - "%{custom_hiera}"
-  - "%{spec_title}"
   - "%{module_name}"
   - "default"
 EOM
@@ -47,7 +46,7 @@ EOM
 # end
 #
 def set_environment(environment = :production)
-    RSpec.configure { |c| c.default_facts['environment'] = environment.to_s }
+  RSpec.configure { |c| c.default_facts['environment'] = environment.to_s }
 end
 
 # This can be used from inside your spec tests to load custom hieradata within
@@ -120,30 +119,15 @@ RSpec.configure do |c|
   end
 
   c.before(:each) do
-    @spec_global_env_temp = Dir.mktmpdir('simpspec')
-
     if defined?(environment)
       set_environment(environment)
-      FileUtils.mkdir_p(File.join(@spec_global_env_temp,environment.to_s))
     end
 
-    # ensure the user running these tests has an accessible environmentpath
-    Puppet[:environmentpath] = @spec_global_env_temp
-    Puppet[:user] = Etc.getpwuid(Process.uid).name
-    Puppet[:group] = Etc.getgrgid(Process.gid).name
-
-    # sanitize hieradata
     if defined?(hieradata)
       set_hieradata(hieradata.gsub(':','_'))
     elsif defined?(class_name)
       set_hieradata(class_name.gsub(':','_'))
     end
-  end
-
-  c.after(:each) do
-    # clean up the mocked environmentpath
-    FileUtils.rm_rf(@spec_global_env_temp)
-    @spec_global_env_temp = nil
   end
 end
 

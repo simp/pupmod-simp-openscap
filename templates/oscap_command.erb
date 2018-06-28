@@ -1,16 +1,16 @@
 <%
-  cmd = ['oscap xccdf eval']
+  cmd = ["#{@oscap_path} xccdf eval"]
   cmd << "--profile #{@scap_profile}"
 
   result = "#{@logdir}/#{@fqdn}-ssg-results-#{@scap_profile}-`date +%Y%m%d%H%M%S`"
   cmd << "--results #{result}.xml"
   cmd << "--report #{result}.html"
 
-  if @scap_tailoring_file then
+  if @scap_tailoring_file
     cmd << "--tailoring-file #{@scap_tailoring_file}"
   end
 
-  if @fetch_remote_resources then
+  if @fetch_remote_resources
     cmd << "--fetch-remote_resources"
   end
 

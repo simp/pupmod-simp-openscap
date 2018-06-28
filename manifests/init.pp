@@ -2,7 +2,7 @@
 # It is mostly based on the scap-security-guide open source project
 # with several customizations for SIMP.
 #
-# @author Ralph Wright <mailto:rwright@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-openscap/graphs/contributors
 #
 class openscap(
   Boolean $enable_schedule = false
@@ -14,5 +14,4 @@ class openscap(
 
   package { 'openscap-utils':      ensure => 'latest' }
   package { 'scap-security-guide': ensure => 'latest' }
-
 }
