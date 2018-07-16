@@ -1,6 +1,6 @@
 {
   "name": "simp-openscap",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "author": "SIMP Team",
   "summary": "Safely manages openscap",
   "license": "Apache-2.0",
