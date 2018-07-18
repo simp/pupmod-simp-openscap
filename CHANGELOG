@@ -1,3 +1,6 @@
+* Mon Jul 16 2018 Michael Morrone <michael.morrone@onyxpoint.com> - 6.1.1-0
+- Updated puppetlabs-stdlib lower bound version to support fact() function
+
 * Mon Jun 25 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.1.0-0
 - Added an `oscap` fact for gathering the following information:
   - OpenSCAP Version
