@@ -1,10 +1,6 @@
 # The testing matrix considers ruby/puppet versions supported by SIMP and PE:
 # ------------------------------------------------------------------------------
 #  release    pup   ruby      eol
-# PE 2016.4   4.7   2.1.9  TBD (LTS)
-# PE 2016.5   4.8   2.1.9  2017-10-31
-# SIMP6.0.0   4.8   2.1.9  TBD
-# PE 2017.1   4.9   2.1.9  2017-10-31
 # PE 2017.2   4.10  2.1.9  TBD
 ---
 language: ruby
@@ -48,18 +44,6 @@ jobs:
     - stage: spec
       rvm: 2.1.9
       env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 4.10.0"
-      script:
-        - bundle exec rake spec
-
-    - stage: spec
-      rvm: 2.1.9
-      env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 4.9.2"
-      script:
-        - bundle exec rake spec
-
-    - stage: spec
-      rvm: 2.1.9
-      env: STRICT_VARIABLES=yes TRUSTED_NODE_DATA=yes PUPPET_VERSION="~> 4.7.0"
       script:
         - bundle exec rake spec
 

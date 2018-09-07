@@ -5,8 +5,6 @@
 # https://puppet.com/docs/pe/2017.3/overview/getting_support_for_pe.html#standard-releases-and-long-term-support-releases
 # ------------------------------------------------------------------------------
 #  release    pup   ruby      eol
-# PE 2016.4   4.7   2.1.9  2018-10  (LTS)
-# SIMP6.0.0   4.8   2.1.9  TBD
 # PE 2017.2   4.10  2.1.9  2018-02-21
 # PE 2017.3   5.3   2.4.1  2018-07
 # PE 2018.1   ???   ?????  ????-??  (LTS)
@@ -53,57 +51,6 @@ stages:
   - unit
   - acceptance
   - deploy
-
-# Puppet 4.7 for PE 2016.4 LTS Support (EOL: 2018-10-21)
-# See: https://puppet.com/misc/puppet-enterprise-lifecycle
-# --------------------------------------
-pup4_7-validation:
-  stage: validation
-  tags:
-    - docker
-  image: ruby:2.1
-  variables:
-    PUPPET_VERSION: '~> 4.7.0'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *validation_checks
-
-pup4_7-unit:
-  stage: unit
-  tags:
-    - docker
-  image: ruby:2.1
-  variables:
-    PUPPET_VERSION: '~> 4.7.0'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *spec_tests
-
-
-# Puppet 4.8 for SIMP 6.0 + 6.1 support
-# --------------------------------------
-pup4_8-validation:
-  stage: validation
-  tags:
-    - docker
-  image: ruby:2.1
-  variables:
-    PUPPET_VERSION: '~> 4.8.0'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *validation_checks
-
-pup4_8-unit:
-  stage: unit
-  tags:
-    - docker
-  image: ruby:2.1
-  variables:
-    PUPPET_VERSION: '~> 4.8.0'
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *spec_tests
-
 
 # Puppet 4.10 for PE 2017.2 support (EOL:2018-02-21)
 # See: https://puppet.com/misc/puppet-enterprise-lifecycle
