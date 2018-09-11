@@ -1,3 +1,6 @@
+* Fri Sep 07 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
+- Update Hiera 4 to Hiera 5
+
 * Mon Jul 16 2018 Michael Morrone <michael.morrone@onyxpoint.com> - 6.1.1-0
 - Updated puppetlabs-stdlib lower bound version to support fact() function
 
