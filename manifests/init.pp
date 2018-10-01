@@ -4,14 +4,23 @@
 #
 # @author https://github.com/simp/pupmod-simp-openscap/graphs/contributors
 #
-class openscap(
-  Boolean $enable_schedule = false
-){
+class openscap (
+  Boolean $enable_schedule = false,
+  String $scap_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  String $ssg_ensure  = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+) {
 
   simplib::assert_metadata($module_name)
 
-  if $enable_schedule { include 'openscap::schedule' }
+  if $enable_schedule {
+    include 'openscap::schedule'
+    Class['openscap'] -> Class['openscap::schedule']
+  }
 
-  package { 'openscap-utils':      ensure => 'latest' }
-  package { 'scap-security-guide': ensure => 'latest' }
+  package { 'openscap-utils':
+    ensure => $scap_ensure
+  }
+  package { 'scap-security-guide':
+    ensure => $ssg_ensure
+  }
 }
