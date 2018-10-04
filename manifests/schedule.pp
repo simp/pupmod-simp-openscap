@@ -25,6 +25,9 @@
 # @param fetch_remote_resource
 #   If true, download remote content referenced by XCCDF.
 #
+# @param scap_tailoring_file
+#   Use  given  file  for XCCDF tailoring.
+#
 # @param logdir
 #   Specifies output location.  Default is /var/log/openscap
 #
