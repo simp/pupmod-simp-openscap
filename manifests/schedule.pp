@@ -22,7 +22,7 @@
 #   The data stream XML file to use for your system scan. This must be a file
 #   under $ssg_base_dir.
 #
-# @param fetch_remote_resource
+# @param fetch_remote_resources
 #   If true, download remote content referenced by XCCDF.
 #
 # @param scap_tailoring_file
