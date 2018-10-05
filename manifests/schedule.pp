@@ -22,8 +22,11 @@
 #   The data stream XML file to use for your system scan. This must be a file
 #   under $ssg_base_dir.
 #
-# @param fetch_remote_resource
+# @param fetch_remote_resources
 #   If true, download remote content referenced by XCCDF.
+#
+# @param scap_tailoring_file
+#   Use  given  file  for XCCDF tailoring.
 #
 # @param logdir
 #   Specifies output location.  Default is /var/log/openscap
@@ -52,6 +55,7 @@ class openscap::schedule (
   Stdlib::Absolutepath             $oscap_path             = pick(fact('oscap.path'), '/bin/oscap'),
   Stdlib::Absolutepath             $ssg_base_dir           = '/usr/share/xml/scap/ssg/content',
   Boolean                          $fetch_remote_resources = false,
+  Optional[Stdlib::Absolutepath]   $scap_tailoring_file    = undef,
   Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
   Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
   Variant[Enum['*'],Integer[0,59]] $minute                 = 30,
@@ -61,7 +65,7 @@ class openscap::schedule (
   Variant[Enum['*'],Integer[0,7]]  $weekday                = 1,
   Boolean                          $force                  = false
 ) {
-  include '::openscap'
+  include 'openscap'
 
   if $force {
     $_set_schedule = true
@@ -101,6 +105,7 @@ class openscap::schedule (
       mode   => '0600',
     }
 
+    $host = $facts['fqdn']
     cron { 'openscap':
       command  => template('openscap/oscap_command.erb'),
       user     => 'root',
@@ -108,15 +113,11 @@ class openscap::schedule (
       hour     => $hour,
       monthday => $monthday,
       month    => $month,
-      weekday  => $weekday,
-      require  => [
-        Package['scap-security-guide'],
-        Package['openscap-utils']
-      ]
+      weekday  => $weekday
     }
 
     if $logrotate {
-      include '::logrotate'
+      include 'logrotate'
 
       logrotate::rule { 'openscap':
         log_files                 => [ "${logdir}/*.xml" ],

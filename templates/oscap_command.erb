@@ -2,7 +2,7 @@
   cmd = ["#{@oscap_path} xccdf eval"]
   cmd << "--profile #{@scap_profile}"
 
-  result = "#{@logdir}/#{@fqdn}-ssg-results-#{@scap_profile}-`date +%Y%m%d%H%M%S`"
+  result = "#{@logdir}/#{@host}-ssg-results-#{@scap_profile}-`date +%Y%m%d%H%M%S`"
   cmd << "--results #{result}.xml"
   cmd << "--report #{result}.html"
 

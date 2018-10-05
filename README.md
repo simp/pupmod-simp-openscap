@@ -41,11 +41,11 @@ schedule and log openscap runs.
 
 ### What simp openscap affects
 
-*simp/openscap* will manage:
+`simp/openscap` will manage:
 
 * openscap-utils and scap-security-guide packages
 
-*simp/openscap::schedule* will manage:
+`simp/openscap::schedule` will manage:
 
 * A cron job for openscap runs
 * A logging directory for openscap (Default: /var/log/openscap)
@@ -118,100 +118,7 @@ class { 'openscap::schedule':
 
 ## Reference
 
-### Public Classes
-* ['openscap'](#openscap): Main Class
-* ['openscap::schedule'](#openscapschedule): Sets a schedule for openscap to run
-a check on your systems.
-
-### `openscap`
-
-#### Parameters
-
-##### enable_schedule
-  Includes the base `openscap::schedule` class.
-  * Valid Options: true or false.
-  * Default: false
-
-### `openscap::schedule`
-
-#### Parameters
-
-##### scap_profile
-  The name of the profile with the content.
-  * Valid Options:
-
-    ```
-    Valid RHEL/CentOS 6 Choices:
-      * xccdf_org.ssgproject.content_profile_test
-      * xccdf_org.ssgproject.content_profile_CS2
-      * xccdf_org.ssgproject.content_profile_common
-      * xccdf_org.ssgproject.content_profile_server
-      * xccdf_org.ssgproject.content_profile_stig-rhel6-server-upstream
-      * xccdf_org.ssgproject.content_profile_usgcb-rhel6-server
-      * xccdf_org.ssgproject.content_profile_rht-ccp
-      * xccdf_org.ssgproject.content_profile_CSCF-RHEL6-MLS
-      * xccdf_org.ssgproject.content_profile_C2S
-
-    Valid RHEL/CentOS 7 Choice:
-      * xccdf_org.ssgproject.content_profile_test
-      * xccdf_org.ssgproject.content_profile_rht-ccp
-      * xccdf_org.ssgproject.content_profile_common
-      * xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream
-    ```
-
-  * Default: `xccdf_org.ssgproject.content_profile_stig-rhel${::operatingsystemmajrelease}-server-upstream`
-
-##### ssg_base_dir
-  The starting directory for all SSG content. Change this if you want to
-install your own SSG profiles.
-  * Valid Options: Absolute Path.
-  * Default: `/usr/share/xml/scap/ssg/content`
-
-##### ssg_data_stream
-  The data stream XML file to use for your system scan. This must be a file
-under $ssg_base_dir.
-  * Valid Options: String ending in .xml.
-  * Default: `ssg-rhel${::operatingsystemmajrelease}-ds.xml`
-
-##### fetch_remote_resource
-  If true, download remote content referenced by XCCDF.
-  * Valid Options: true or false.
-  * Default: `false`.
-
-##### logdir
-  Specifies output location.
-  * Valid Options: Absolute Path.
-  * Default: `/var/log/openscap`
-
-##### logrotate
-  If true, use `simp/logrotate` to rotate the output logs.
-  * Valid Options: true or false.
-  * Default: value of `simp_options::logrotate` or false.
-
-##### minute
-  Minute setting for logging cronjob.
-  * Valid Options: see cron resource type.
-  * Default: `30`.
-
-##### hour
-  Hour setting for logging cronjob.
-  * Valid Options: see cron resource type.
-  * Default: `1`.
-
-##### monthday
-  Day of Month setting for logging cronjob.
-  * Valid Options: see cron resource type.
-  * Default: `'*'`.
-
-##### month
-  Month setting for logging cronjob.
-  * Valid Options: see cron resource type.
-  * Default: `'*'`.
-
-##### weekday
-  Weekday setting for logging cronjob.
-  * Valid Options: see cron resource type.
-  * Default: `1`.
+Please see the [REFERENCE.md](REFERENCE.md).
 
 ## Limitations
 
