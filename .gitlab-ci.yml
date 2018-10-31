@@ -1,8 +1,8 @@
 # The testing matrix considers ruby/puppet versions supported by SIMP and PE:
 #
-# https://puppet.com/docs/pe/latest/overview/component_versions_in_recent_pe_releases.html
+# https://puppet.com/docs/pe/2018.1/component_versions_in_recent_pe_releases.html
 # https://puppet.com/misc/puppet-enterprise-lifecycle
-# https://puppet.com/docs/pe/latest/overview/getting_support_for_pe.html
+# https://puppet.com/docs/pe/2018.1/overview/getting_support_for_pe.html
 # ------------------------------------------------------------------------------
 # Release       Puppet   Ruby   EOL
 # PE 2016.4.15  4.10.12  2.1.9  2018-12 (LTS)
@@ -143,7 +143,7 @@ pup5_latest-unit:
 
 # Acceptance tests
 # ==============================================================================
-default:
+default-puppet4:
   stage: acceptance
   tags:
     - beaker
@@ -151,6 +151,20 @@ default:
   <<: *setup_bundler_env
   variables:
     PUPPET_VERSION: '~> 4.10.4'
+  script:
+    - bundle exec rake spec_clean
+    - bundle exec rake beaker:suites[default]
+
+default-puppet4-fips:
+  stage: acceptance
+  tags:
+    - beaker
+  <<: *cache_bundler
+  <<: *setup_bundler_env
+  <<: *only_with_SIMP_FULL_MATRIX
+  variables:
+    PUPPET_VERSION: '~> 4.10.4'
+    BEAKER_fips: 'yes'
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[default]
@@ -181,19 +195,6 @@ default-puppet5-fips:
   script:
     - bundle exec rake spec_clean
     - bundle exec rake beaker:suites[default]
-
-default-oel:
-  stage: acceptance
-  tags:
-    - beaker
-  <<: *cache_bundler
-  <<: *setup_bundler_env
-  <<: *only_with_SIMP_FULL_MATRIX
-  variables:
-    PUPPET_VERSION: '~> 4.10.4'
-  script:
-    - bundle exec rake spec_clean
-    - bundle exec rake beaker:suites[default,oel]
 
 default-oel-puppet5:
   stage: acceptance
