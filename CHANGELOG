@@ -1,4 +1,7 @@
-* Mon Oct 01 2018 Nick Miller <nick.Miller@onyxpoint.com> - 6.2.0-0
+* Mon Oct 29 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.0-0
+- Update badges and contribution guide URL in README.md
+
+* Mon Oct 01 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.2.0-0
 - Add package_ensure parameters to packages managed by this modoule
   - $scap_ensure - openscap-utils
   - $ssg_ensure - scap-security-guide

@@ -11,20 +11,20 @@ HOSTS:
       - server7
       - default
     platform: el-7-x86_64
-    box :     elastic/oel-7-x86_64
+    box :     onyxpoint/oel-7-x86_64
     hypervisor : <%= hypervisor %>
 
   oel6:
     roles:
       - server6
     platform: el-6-x86_64
-    box :     elastic/oel-6-x86_64
+    box :     onyxpoint/oel-6-x86_64
     hypervisor : <%= hypervisor %>
 CONFIG:
   type: aio
   log_level: verbose
   vagrant_memsize: 256
   log_level: verbose
-<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
-  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
+<% if ENV['BEAKER_PUPPET_COLLECTION'] -%>
+  puppet_collection: <%= ENV['BEAKER_PUPPET_COLLECTION'] %>
 <% end -%>
