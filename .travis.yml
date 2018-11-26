@@ -24,7 +24,7 @@ stages:
   - check
   - spec
   - name: deploy
-    if: 'fork = false AND tag = true'
+    if: 'tag IS present'
 
 bundler_args: --without development system_tests --path .vendor
 
