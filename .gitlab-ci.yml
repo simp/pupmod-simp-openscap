@@ -27,7 +27,7 @@ image: 'ruby:2.4'
 
 variables:
   PUPPET_VERSION:    'UNDEFINED' # <- Matrixed jobs MUST override this (or fail)
-  BUNDLER_VERSION:   '1.16.1'
+  BUNDLER_VERSION:   '1.17.1'
 
   # Force dependencies into a path the gitlab-runner user can write to.
   # (This avoids some failures on Runners with misconfigured ruby environments.)
@@ -50,8 +50,8 @@ variables:
     paths:
       - '.vendor'
   before_script:
-    - 'ruby -e "puts %(Environment Variables:\n  * #{ENV.keys.grep(/PUPPET|SIMP|BEAKER|MATRIX/).map{|v| %(#{v} = #{ENV[v]})}.join(%(\n  * ))})"'
-    - 'declare GEM_BUNDLER_VER=(-v "~> ${BUNDLER_VERSION:-1.16.0}")'
+    - 'ruby -e "puts %(\n\n), %q(=)*80, %(\nSIMP-relevant Environment Variables:\n\n#{e=ENV.keys.grep(/^PUPPET|^SIMP|^BEAKER|MATRIX/); pad=e.map{|x| x.size}.max+1; e.map{|v| %(    * #{%(#{v}:).ljust(pad)} #{39.chr + ENV[v] + 39.chr}\n)}.join}\n),  %q(=)*80, %(\n\n)"'
+    - 'declare GEM_BUNDLER_VER=(-v "~> ${BUNDLER_VERSION:-1.17.1}")'
     - 'declare GEM_INSTALL_CMD=(gem install --no-document)'
     - 'declare BUNDLER_INSTALL_CMD=(bundle install --no-binstubs --jobs $(nproc) "${FLAGS[@]}")'
     - 'mkdir -p ${GEM_HOME} ${BUNDLER_BIN}'
@@ -70,7 +70,7 @@ variables:
 #-----------------------------------------------------------------------
 
 .pup_4: &pup_4
-  image: 'ruby:2.4'
+  image: 'ruby:2.1'
   variables:
     PUPPET_VERSION: '~> 4.0'
     MATRIX_RUBY_VERSION: '2.1'
@@ -85,13 +85,6 @@ variables:
   image: 'ruby:2.4'
   variables:
     PUPPET_VERSION: '~> 5.0'
-    BEAKER_PUPPET_COLLECTION: 'puppet5'
-    MATRIX_RUBY_VERSION: '2.4'
-
-.pup_5_3: &pup_5_3
-  image: 'ruby:2.4'
-  variables:
-    PUPPET_VERSION: '~> 5.3.0'
     BEAKER_PUPPET_COLLECTION: 'puppet5'
     MATRIX_RUBY_VERSION: '2.4'
 
@@ -179,10 +172,6 @@ pup6-lint:
 
 pup5-unit:
   <<: *pup_5
-  <<: *unit_tests
-
-pup5.3-unit:
-  <<: *pup_5_3
   <<: *unit_tests
 
 pup5.5.7-unit:
