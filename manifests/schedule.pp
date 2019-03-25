@@ -58,11 +58,11 @@ class openscap::schedule (
   Optional[Stdlib::Absolutepath]   $scap_tailoring_file    = undef,
   Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
   Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
-  Variant[Enum['*'],Integer[0,59]] $minute                 = 30,
-  Variant[Enum['*'],Integer[0,23]] $hour                   = 1,
-  Variant[Enum['*'],Integer[1,31]] $monthday               = '*',
-  Variant[Enum['*'],Integer[1,12]] $month                  = '*',
-  Variant[Enum['*'],Integer[0,7]]  $weekday                = 1,
+  Simplib::Cron::Minute            $minute                 = 30,
+  Simplib::Cron::Hour              $hour                   = 1,
+  Simplib::Cron::MonthDay          $monthday               = '*',
+  Simplib::Cron::Month             $month                  = '*',
+  Simplib::Cron::Weekday           $weekday                = 1,
   Boolean                          $force                  = false
 ) {
   include 'openscap'
