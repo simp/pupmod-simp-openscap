@@ -1,3 +1,6 @@
+* Mon Mar 25 2019 Joseph Sharkey <shark.bruhaha@gmail.com> - 6.2.1-0
+- Standardized cron datatypes to use the Simplib::Cron::### types
+
 * Mon Mar 11 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 6.2.1-0
 - Updated a URL in the README.md
 
