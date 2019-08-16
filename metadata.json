@@ -1,6 +1,6 @@
 {
   "name": "simp-openscap",
-  "version": "6.2.1",
+  "version": "6.3.0",
   "author": "SIMP Team",
   "summary": "Safely manages openscap",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.19.0 < 6.0.0"
+      "version_requirement": ">= 4.19.0 < 7.0.0"
     },
     {
       "name": "simp/simplib",
@@ -51,7 +51,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.4 < 6.0.0"
+      "version_requirement": ">= 5.0.0 < 7.0.0"
     }
   ]
 }
