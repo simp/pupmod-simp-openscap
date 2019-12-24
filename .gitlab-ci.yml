@@ -69,10 +69,10 @@ variables:
     BEAKER_PUPPET_COLLECTION: 'puppet5'
     MATRIX_RUBY_VERSION: '2.4'
 
-.pup_5_5_10: &pup_5_5_10
+.pup_5_5_16: &pup_5_5_16
   image: 'ruby:2.4'
   variables:
-    PUPPET_VERSION: '5.5.10'
+    PUPPET_VERSION: '5.5.16'
     BEAKER_PUPPET_COLLECTION: 'puppet5'
     MATRIX_RUBY_VERSION: '2.4'
 
@@ -149,8 +149,8 @@ pup5-unit:
   <<: *pup_5
   <<: *unit_tests
 
-pup5.5.10-unit:
-  <<: *pup_5_5_10
+pup5.5.16-unit:
+  <<: *pup_5_5_16
   <<: *unit_tests
 
 pup6-unit:
@@ -159,26 +159,26 @@ pup6-unit:
 
 # Acceptance tests
 # ==============================================================================
-pup5.5.10:
-  <<: *pup_5_5_10
+pup5.5.16:
+  <<: *pup_5_5_16
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites'
 
-pup5.5.10-fips:
-  <<: *pup_5_5_10
+pup5.5.16-fips:
+  <<: *pup_5_5_16
   <<: *acceptance_base
   script:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites'
 
-pup5.5.10-oel:
-  <<: *pup_5_5_10
+pup5.5.16-oel:
+  <<: *pup_5_5_16
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
 
-pup5.5.10-oel-fips:
-  <<: *pup_5_5_10
+pup5.5.16-oel-fips:
+  <<: *pup_5_5_16
   <<: *acceptance_base
   <<: *only_with_SIMP_FULL_MATRIX
   script:
