@@ -6,16 +6,25 @@
 
 #### Table of Contents
 
-1. [Overview](#this-is-a-simp-module)
-2. [Module Description - A Puppet module for managing openscap](#module-description)
-3. [Setup - The basics of getting started with pupmod-simp-openscap](#setup)
-    * [What pupmod-simp-openscap affects](#what-simp-openscap-affects)
-    * [Setup requirements](#setup-requirements)
+<!-- vim-markdown-toc GFM -->
+
+  * [This is a SIMP module](#this-is-a-simp-module)
+  * [Module Description](#module-description)
+  * [Setup](#setup)
+    * [What simp openscap affects](#what-simp-openscap-affects)
+    * [Setup Requirements](#setup-requirements)
     * [Beginning with openscap](#beginning-with-openscap)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+  * [Usage](#usage)
+    * [I want to install openscap with default logging](#i-want-to-install-openscap-with-default-logging)
+    * [I have a particular SCAP profile I want to use](#i-have-a-particular-scap-profile-i-want-to-use)
+    * [I want to log daily at a set time](#i-want-to-log-daily-at-a-set-time)
+    * [I want to log on the first and fifteenth day of the month](#i-want-to-log-on-the-first-and-fifteenth-day-of-the-month)
+    * [I want to log to a different directory](#i-want-to-log-to-a-different-directory)
+  * [Reference](#reference)
+  * [Limitations](#limitations)
+* [Development](#development)
+
+<!-- vim-markdown-toc -->
 
 ## This is a SIMP module
 This module is a component of the
@@ -28,10 +37,10 @@ If you find any issues, they can be submitted to our
 This module is optimally designed for use within a larger SIMP ecosystem, but it
 can be used independently:
 * When included within the SIMP ecosystem, security compliance settings will be
-managed from the Puppet server.
+  managed from the Puppet server.
 * In the future, all SIMP-managed security subsystems will be disabled by
-default and must be explicitly opted into by administrators.  Please review
-*simp/simp_options* for details.
+  default and must be explicitly opted into by administrators.  Please review
+  *simp/simp_options* for details.
 
 ## Module Description
 
@@ -119,12 +128,11 @@ class { 'openscap::schedule':
 
 ## Reference
 
-Please see the [REFERENCE.md](REFERENCE.md).
+Please see the [REFERENCE.md](./REFERENCE.md).
 
 ## Limitations
 
-This module is only designed to work in RHEL or CentOS 6 and 7. Any other
-operating systems have not been tested and results cannot be guaranteed.
+This module is designed to work in RHEL-compatible environments.
 
 # Development
 

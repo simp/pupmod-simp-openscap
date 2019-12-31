@@ -8,6 +8,10 @@
 * [`openscap`](#openscap): This class installs SCAP content and the associated tools. It is mostly based on the scap-security-guide open source project with several cus
 * [`openscap::schedule`](#openscapschedule): This class allows you to set a schedule for openscap to run a check on your system via cron.
 
+**Data types**
+
+* [`Openscap::Profile`](#openscapprofile): Valid OpenSCAP profile names
+
 ## Classes
 
 ### openscap
@@ -124,7 +128,7 @@ Default value: simplib::lookup('simp_options::logrotate', { 'default_value' => f
 
 ##### `minute`
 
-Data type: `Variant[Enum['*'],Integer[0,59]]`
+Data type: `Simplib::Cron::Minute`
 
 
 
@@ -132,7 +136,7 @@ Default value: 30
 
 ##### `hour`
 
-Data type: `Variant[Enum['*'],Integer[0,23]]`
+Data type: `Simplib::Cron::Hour`
 
 
 
@@ -140,7 +144,7 @@ Default value: 1
 
 ##### `monthday`
 
-Data type: `Variant[Enum['*'],Integer[1,31]]`
+Data type: `Simplib::Cron::MonthDay`
 
 
 
@@ -148,7 +152,7 @@ Default value: '*'
 
 ##### `month`
 
-Data type: `Variant[Enum['*'],Integer[1,12]]`
+Data type: `Simplib::Cron::Month`
 
 
 
@@ -156,7 +160,7 @@ Default value: '*'
 
 ##### `weekday`
 
-Data type: `Variant[Enum['*'],Integer[0,7]]`
+Data type: `Simplib::Cron::Weekday`
 
 
 
@@ -173,4 +177,12 @@ target system and add the schedule anyway
   location that cannot be found by the fact in the default path
 
 Default value: `false`
+
+## Data types
+
+### Openscap::Profile
+
+Valid OpenSCAP profile names
+
+Alias of `Pattern[/xccdf_[^_]+_profile_.+/]`
 
