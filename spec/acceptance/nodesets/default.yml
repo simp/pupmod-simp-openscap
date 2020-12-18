@@ -13,11 +13,6 @@ HOSTS:
     box :     centos/7
     hypervisor : <%= hypervisor %>
 
-  el6:
-    platform: el-6-x86_64
-    box :     centos/6
-    hypervisor : <%= hypervisor %>
-
   el8:
     platform: el-8-x86_64
     box :     centos/8

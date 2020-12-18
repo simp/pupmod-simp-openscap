@@ -1,3 +1,0 @@
----
-openscap::schedule::scap_profile: "xccdf_org.ssgproject.content_profile_standard"
-openscap::schedule::ssg_data_stream: "ssg-rhel6-ds.xml"
