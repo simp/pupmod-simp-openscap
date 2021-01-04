@@ -9,8 +9,6 @@ HOSTS:
   oel7:
     roles:
       - server7
-      # roles migrated from now-removed el6 node(s):
-      - server6
       - default
     platform: el-7-x86_64
     box :     onyxpoint/oel-7-x86_64
