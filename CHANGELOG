@@ -1,3 +1,6 @@
+* Fri Dec 18 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 6.3.1
+- Removed EL6 support
+
 * Fri Aug 02 2019 Robert Vincent <pillarsdotnet@gmail.com> - 6.3.0-0
 - Drop Puppet 4 support
 - Add Puppet 6 support

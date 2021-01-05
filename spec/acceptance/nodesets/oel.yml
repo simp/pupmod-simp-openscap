@@ -14,12 +14,6 @@ HOSTS:
     box :     onyxpoint/oel-7-x86_64
     hypervisor : <%= hypervisor %>
 
-  oel6:
-    roles:
-      - server6
-    platform: el-6-x86_64
-    box :     onyxpoint/oel-6-x86_64
-    hypervisor : <%= hypervisor %>
 CONFIG:
   type: aio
   log_level: verbose
