@@ -111,6 +111,7 @@ variables:
   changes:
     - .gitlab-ci.yml
     - .fixtures.yml
+    - metadata.json
     - "spec/spec_helper_acceptance.rb"
     - "spec/{helpers,acceptance}/**/*"
     - "{SIMP,data,manifests,files,types,lib}/**/*"
