@@ -45,11 +45,13 @@ variables:
   BUNDLE_NO_PRUNE:   'true'
 
 
-# bundler dependencies + caching, optional RVM setup, with diagnostic output
-# --------------------------------------------------------------------------
+# bundler dependencies and caching
+#
+# - Cache bundler gems between pipelines foreach Ruby version
+# - Try to use cached and local resources before downloading dependencies
+# --------------------------------------
 .setup_bundler_env: &setup_bundler_env
   cache:
-    # Cache bundler gems between pipelines for each Ruby version
     key: "${CI_PROJECT_NAMESPACE}_ruby-${MATRIX_RUBY_VERSION}_bundler"
     paths:
       - '.vendor'
@@ -91,30 +93,26 @@ variables:
 
 # Assign a matrix level when your test will run.  Heavier jobs get higher numbers
 # NOTE: To skip all jobs with a SIMP_MATRIX_LEVEL, set SIMP_MATRIX_LEVEL=0
-# ------------------------------------------------------------------------------
 
 .relevant_file_conditions_trigger_spec_tests: &relevant_file_conditions_trigger_spec_tests
   changes:
     - .gitlab-ci.yml
     - .fixtures.yml
-    - .rspec
-    - metadata.json
     - "spec/spec_helper.rb"
     - "spec/{classes,unit,defines,type_aliases,types,hosts,lib}/**/*.rb"
-    - "{SIMP,data,manifests,files,types,lib}/**/*"
+    - "{SIMP,data,manifests,files,types,lib,functions}/**/*"
     - "templates/**/*.{erb,epp}"
     - "Gemfile"
   exists:
-    - "spec/{classes,unit,defines,type_aliases,types,hosts,lib}/**/*_spec.rb"
+    - "spec/{classes,unit,defines,type_aliases,types,hosts}/**/*_spec.rb"
 
 .relevant_file_conditions_trigger_acceptance_tests: &relevant_file_conditions_trigger_acceptance_tests
   changes:
     - .gitlab-ci.yml
-    - .fixtures.yml
-    - metadata.json
     - "spec/spec_helper_acceptance.rb"
     - "spec/{helpers,acceptance}/**/*"
-    - "{SIMP,data,manifests,files,types,lib}/**/*"
+    - "spec/inspec_*/**/*"
+    - "{SIMP,data,manifests,files,types,lib,functions}/**/*"
     - "templates/**/*.{erb,epp}"
     - "Gemfile"
   exists:
@@ -217,28 +215,35 @@ variables:
 # Puppet Versions
 #-----------------------------------------------------------------------
 
-.pup_5: &pup_5
+.pup_5_x: &pup_5_x
   image: 'ruby:2.4'
   variables:
     PUPPET_VERSION: '~> 5.0'
     BEAKER_PUPPET_COLLECTION: 'puppet5'
     MATRIX_RUBY_VERSION: '2.4'
 
-.pup_6: &pup_6
+.pup_5_pe: &pup_5_pe
+  image: 'ruby:2.4'
+  variables:
+    PUPPET_VERSION: '5.5.22'
+    BEAKER_PUPPET_COLLECTION: 'puppet5'
+    MATRIX_RUBY_VERSION: '2.4'
+
+.pup_6_x: &pup_6_x
   image: 'ruby:2.5'
   variables:
     PUPPET_VERSION: '~> 6.0'
     BEAKER_PUPPET_COLLECTION: 'puppet6'
     MATRIX_RUBY_VERSION: '2.5'
 
-.pup_6_18_0: &pup_6_18_0
+.pup_6_pe: &pup_6_pe
   image: 'ruby:2.5'
   variables:
     PUPPET_VERSION: '6.18.0'
     BEAKER_PUPPET_COLLECTION: 'puppet6'
     MATRIX_RUBY_VERSION: '2.5'
 
-.pup_7: &pup_7
+.pup_7_x: &pup_7_x
   image: 'ruby:2.7'
   variables:
     PUPPET_VERSION: '~> 7.0'
@@ -282,7 +287,7 @@ variables:
 #=======================================================================
 
 releng_checks:
-  <<: *pup_5
+  <<: *pup_5_x
   <<: *setup_bundler_env
   stage: 'validation'
   tags: ['docker']
@@ -298,28 +303,38 @@ releng_checks:
 # Linting
 #-----------------------------------------------------------------------
 
+# NOTE: Don't add more lint checks here.
+#       puppet-lint is a validator, not a parser; it includes its own lexer and
+#       doesn't use the Puppet gem at all.  Running multiple lint tests against
+#       different Puppet versions won't accomplish anything.
+
 pup-lint:
-  <<: *pup_6
+  <<: *pup_6_x
   <<: *lint_tests
 
 # Unit Tests
 #-----------------------------------------------------------------------
 
-pup5-unit:
-  <<: *pup_5
-  <<: *unit_tests
-
-pup6-unit:
-  <<: *pup_6
+pup5.x-unit:
+  <<: *pup_5_x
   <<: *unit_tests
   <<: *with_SIMP_SPEC_MATRIX_LEVEL_2
 
-pup6.18.0-unit:
-  <<: *pup_6_18_0
+pup5.pe-unit:
+  <<: *pup_5_pe
   <<: *unit_tests
 
-pup7-unit:
-  <<: *pup_7
+pup6.x-unit:
+  <<: *pup_6_x
+  <<: *unit_tests
+  <<: *with_SIMP_SPEC_MATRIX_LEVEL_2
+
+pup6.pe-unit:
+  <<: *pup_6_pe
+  <<: *unit_tests
+
+pup7.x-unit:
+  <<: *pup_7_x
   <<: *unit_tests
 
 # ------------------------------------------------------------------------------
@@ -332,39 +347,38 @@ pup7-unit:
 # Repo-specific content
 # ==============================================================================
 
-pup5:
-  <<: *pup_5
+pup5.x:
+  <<: *pup_5_x
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
 
-pup6:
-  <<: *pup_6
+pup6.x:
+  <<: *pup_6_x
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
 
-pup6.18.0:
-  <<: *pup_6_18_0
+pup6.pe:
+  <<: *pup_6_pe
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
 
-pup6.18.0-fips:
-  <<: *pup_6_18_0
+pup6.pe-fips:
+  <<: *pup_6_pe
   <<: *acceptance_base
   script:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default]'
 
-pup6.18.0-oel:
-  <<: *pup_6_18_0
+pup6.pe-oel:
+  <<: *pup_6_pe
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
 
-pup7:
-  <<: *pup_7
+pup7.x:
+  <<: *pup_7_x
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
-
