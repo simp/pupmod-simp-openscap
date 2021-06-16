@@ -4,8 +4,8 @@ fixtures:
     cron_core:
       repo: https://github.com/simp/pupmod-puppetlabs-cron_core.git
       puppet_version: ">= 6.0.0"
-    logrotate: https://github.com/simp/pupmod-simp-logrotate
-    simplib: https://github.com/simp/pupmod-simp-simplib
-    stdlib:  https://github.com/simp/puppetlabs-stdlib
+    logrotate: https://github.com/simp/pupmod-simp-logrotate.git
+    simplib: https://github.com/simp/pupmod-simp-simplib.git
+    stdlib: https://github.com/simp/puppetlabs-stdlib.git
   symlinks:
     openscap: "#{source_dir}"
