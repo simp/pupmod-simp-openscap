@@ -1,3 +1,7 @@
+* Wed Jun 16 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 6.4.0
+- Removed support for Puppet 5
+- Ensured support for Puppet 7 in requirements and stdlib
+
 * Wed Jan 06 2021 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.3.1
 - Fixed EL7 default data stream name in CentOS
 - Added support for Puppet 7
