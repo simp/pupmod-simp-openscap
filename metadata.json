@@ -14,7 +14,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 6.18.0 < 8.0.0"
+      "version_requirement": ">= 6.6.0 < 8.0.0"
     },
     {
       "name": "simp/simplib",
