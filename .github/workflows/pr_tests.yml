@@ -26,6 +26,9 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 
+env:
+  PUPPET_VERSION: '~> 6'
+
 jobs:
   puppet-syntax:
     name: 'Puppet Syntax'
@@ -35,7 +38,7 @@ jobs:
       - name: "Install Ruby ${{matrix.puppet.ruby_version}}"
         uses: ruby/setup-ruby@v1  # ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5
           bundler-cache: true
       - run: "bundle exec rake syntax"
 
@@ -47,7 +50,7 @@ jobs:
       - name: "Install Ruby ${{matrix.puppet.ruby_version}}"
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5
           bundler-cache: true
       - run: "bundle exec rake lint"
       - run: "bundle exec rake metadata_lint"
@@ -62,7 +65,7 @@ jobs:
       - name: "Install Ruby ${{matrix.puppet.ruby_version}}"
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5
           bundler-cache: true
       - run: |
           bundle show
@@ -73,10 +76,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 'Install Ruby 2.7'
+      - name: 'Install Ruby 2.5'
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5
           bundler-cache: true
       - run: bundle exec rake check:dot_underscore
       - run: bundle exec rake check:test_file
@@ -89,12 +92,12 @@ jobs:
       - name: 'Install Ruby ${{matrix.puppet.ruby_version}}'
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 2.5
           bundler-cache: true
       - name: 'Tags and changelogs'
         run: |
           bundle exec rake pkg:check_version
-          bundle exec rake pkg:compare_latest_tag
+          bundle exec rake pkg:compare_latest_tag[,true]
           bundle exec rake pkg:create_tag_changelog
       - name: 'Test-build the Puppet module'
         run: 'bundle exec pdk build --force'
@@ -106,6 +109,9 @@ jobs:
     strategy:
       matrix:
         puppet:
+          - label: 'Puppet 6.22 [SIMP 6.6/PE 2019.8]'
+            puppet_version: '~> 6.22.1'
+            ruby_version: '2.5'
           - label: 'Puppet 7.x'
             puppet_version: '~> 7.0'
             ruby_version: '2.7'
