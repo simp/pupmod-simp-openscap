@@ -355,32 +355,32 @@ pup7.pe-unit:
 # Repo-specific content
 # ==============================================================================
 
-pup6.x:
-  <<: *pup_6_x
+pup7.x:
+  <<: *pup_7_x
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
 
-pup6.pe:
-  <<: *pup_6_pe
+pup7.pe:
+  <<: *pup_7_pe
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
 
-pup6.pe-fips:
-  <<: *pup_6_pe
+pup7.pe-fips:
+  <<: *pup_7_pe
   <<: *acceptance_base
   script:
     - 'BEAKER_fips=yes bundle exec rake beaker:suites[default]'
 
-pup6.pe-oel:
-  <<: *pup_6_pe
+pup7.pe-oel:
+  <<: *pup_7_pe
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
 
-pup7.x:
-  <<: *pup_7_x
+pup8.x:
+  <<: *pup_8_x
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default]'
