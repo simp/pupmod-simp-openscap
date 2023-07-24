@@ -1,31 +1,24 @@
-<%
-  if ENV['BEAKER_HYPERVISOR']
-    hypervisor = ENV['BEAKER_HYPERVISOR']
-  else
-    hypervisor = 'vagrant'
-  end
--%>
+---
 HOSTS:
   oel7:
     roles:
-      - server7
-      - default
+    - server7
+    - default
     platform: el-7-x86_64
-    box :     generic/oracle7
-    hypervisor : <%= hypervisor %>
-
+    box: generic/oracle7
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
+    family: sicura-image-build/oracle-linux-7
+    gce_machine_type: n1-standard-2
   oel8:
     roles:
-      - server8
+    - server8
     platform: el-8-x86_64
-    box :     generic/oracle8
-    hypervisor : <%= hypervisor %>
-
+    box: generic/oracle8
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
+    family: sicura-image-build/oracle-linux-8
+    gce_machine_type: n1-standard-2
 CONFIG:
   type: aio
   log_level: verbose
   vagrant_memsize: 256
-  log_level: verbose
-<% if ENV['BEAKER_PUPPET_COLLECTION'] -%>
-  puppet_collection: <%= ENV['BEAKER_PUPPET_COLLECTION'] %>
-<% end -%>
+  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
