@@ -11,7 +11,7 @@ end
 describe 'openscap::schedule' do
   on_supported_os.each do |os, os_facts|
 
-    context "on #{os}" do
+    context "on #{os}", skip: (os =~ /rocky/i ? 'Rocky Linux does not currently have any officially supported ssg streams' : nil) do
       context 'with a valid environment' do
         let(:facts) {
           oscap_fact = {
