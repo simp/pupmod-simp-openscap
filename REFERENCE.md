@@ -7,15 +7,15 @@
 ### Classes
 
 * [`openscap`](#openscap): This class installs SCAP content and the associated tools. It is mostly based on the scap-security-guide open source project with several cus
-* [`openscap::schedule`](#openscapschedule): This class allows you to set a schedule for openscap to run a check on your system via cron.
+* [`openscap::schedule`](#openscap--schedule): This class allows you to set a schedule for openscap to run a check on your system via cron.
 
 ### Data types
 
-* [`Openscap::Profile`](#openscapprofile): Valid OpenSCAP profile names
+* [`Openscap::Profile`](#Openscap--Profile): Valid OpenSCAP profile names
 
 ## Classes
 
-### `openscap`
+### <a name="openscap"></a>`openscap`
 
 This class installs SCAP content and the associated tools.
 It is mostly based on the scap-security-guide open source project
@@ -23,17 +23,21 @@ with several customizations for SIMP.
 
 #### Parameters
 
-The following parameters are available in the `openscap` class.
+The following parameters are available in the `openscap` class:
 
-##### `enable_schedule`
+* [`enable_schedule`](#-openscap--enable_schedule)
+* [`scap_ensure`](#-openscap--scap_ensure)
+* [`ssg_ensure`](#-openscap--ssg_ensure)
+
+##### <a name="-openscap--enable_schedule"></a>`enable_schedule`
 
 Data type: `Boolean`
 
 Run an OpenSCAP scan on a schedule, using `openscap::schedule`
 
-Default value: ``false``
+Default value: `false`
 
-##### `scap_ensure`
+##### <a name="-openscap--scap_ensure"></a>`scap_ensure`
 
 Data type: `String`
 
@@ -41,7 +45,7 @@ Package ensure value for the `openscap-utils` package
 
 Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`
 
-##### `ssg_ensure`
+##### <a name="-openscap--ssg_ensure"></a>`ssg_ensure`
 
 Data type: `String`
 
@@ -49,16 +53,31 @@ Package ensure value for the `scap-security-guide` package
 
 Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`
 
-### `openscap::schedule`
+### <a name="openscap--schedule"></a>`openscap::schedule`
 
 This class allows you to set a schedule for openscap to run a check
 on your system via cron.
 
 #### Parameters
 
-The following parameters are available in the `openscap::schedule` class.
+The following parameters are available in the `openscap::schedule` class:
 
-##### `scap_profile`
+* [`scap_profile`](#-openscap--schedule--scap_profile)
+* [`oscap_path`](#-openscap--schedule--oscap_path)
+* [`ssg_base_dir`](#-openscap--schedule--ssg_base_dir)
+* [`ssg_data_stream`](#-openscap--schedule--ssg_data_stream)
+* [`fetch_remote_resources`](#-openscap--schedule--fetch_remote_resources)
+* [`scap_tailoring_file`](#-openscap--schedule--scap_tailoring_file)
+* [`logdir`](#-openscap--schedule--logdir)
+* [`logrotate`](#-openscap--schedule--logrotate)
+* [`minute`](#-openscap--schedule--minute)
+* [`hour`](#-openscap--schedule--hour)
+* [`monthday`](#-openscap--schedule--monthday)
+* [`month`](#-openscap--schedule--month)
+* [`weekday`](#-openscap--schedule--weekday)
+* [`force`](#-openscap--schedule--force)
+
+##### <a name="-openscap--schedule--scap_profile"></a>`scap_profile`
 
 Data type: `Openscap::Profile`
 
@@ -67,7 +86,7 @@ The name of the profile with the content.
 * Valid profiles change based on the target system. See the results of the
 `oscap` fact for valid targets.
 
-##### `oscap_path`
+##### <a name="-openscap--schedule--oscap_path"></a>`oscap_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -78,7 +97,7 @@ The path to the `oscap` executable
 
 Default value: `pick(fact('oscap.path'), '/bin/oscap')`
 
-##### `ssg_base_dir`
+##### <a name="-openscap--schedule--ssg_base_dir"></a>`ssg_base_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -87,7 +106,7 @@ install your own SSG profiles.
 
 Default value: `'/usr/share/xml/scap/ssg/content'`
 
-##### `ssg_data_stream`
+##### <a name="-openscap--schedule--ssg_data_stream"></a>`ssg_data_stream`
 
 Data type: `Pattern[/^.+\.xml$/]`
 
@@ -95,23 +114,23 @@ Type: XML file under $ssg_base_dir
 The data stream XML file to use for your system scan. This must be a file
 under $ssg_base_dir.
 
-##### `fetch_remote_resources`
+##### <a name="-openscap--schedule--fetch_remote_resources"></a>`fetch_remote_resources`
 
 Data type: `Boolean`
 
 If true, download remote content referenced by XCCDF.
 
-Default value: ``false``
+Default value: `false`
 
-##### `scap_tailoring_file`
+##### <a name="-openscap--schedule--scap_tailoring_file"></a>`scap_tailoring_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Use  given  file  for XCCDF tailoring.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### `logdir`
+##### <a name="-openscap--schedule--logdir"></a>`logdir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -119,7 +138,7 @@ Specifies output location.  Default is /var/log/openscap
 
 Default value: `'/var/log/openscap'`
 
-##### `logrotate`
+##### <a name="-openscap--schedule--logrotate"></a>`logrotate`
 
 Data type: `Boolean`
 
@@ -127,7 +146,7 @@ If true, use logrotate to rotate the output logs.
 
 Default value: `simplib::lookup('simp_options::logrotate', { 'default_value' => false})`
 
-##### `minute`
+##### <a name="-openscap--schedule--minute"></a>`minute`
 
 Data type: `Simplib::Cron::Minute`
 
@@ -135,7 +154,7 @@ Data type: `Simplib::Cron::Minute`
 
 Default value: `30`
 
-##### `hour`
+##### <a name="-openscap--schedule--hour"></a>`hour`
 
 Data type: `Simplib::Cron::Hour`
 
@@ -143,7 +162,7 @@ Data type: `Simplib::Cron::Hour`
 
 Default value: `1`
 
-##### `monthday`
+##### <a name="-openscap--schedule--monthday"></a>`monthday`
 
 Data type: `Simplib::Cron::MonthDay`
 
@@ -151,7 +170,7 @@ Data type: `Simplib::Cron::MonthDay`
 
 Default value: `'*'`
 
-##### `month`
+##### <a name="-openscap--schedule--month"></a>`month`
 
 Data type: `Simplib::Cron::Month`
 
@@ -159,7 +178,7 @@ Data type: `Simplib::Cron::Month`
 
 Default value: `'*'`
 
-##### `weekday`
+##### <a name="-openscap--schedule--weekday"></a>`weekday`
 
 Data type: `Simplib::Cron::Weekday`
 
@@ -167,7 +186,7 @@ Data type: `Simplib::Cron::Weekday`
 
 Default value: `1`
 
-##### `force`
+##### <a name="-openscap--schedule--force"></a>`force`
 
 Data type: `Boolean`
 
@@ -177,11 +196,11 @@ target system and add the schedule anyway
 * This should be used if you've installed `oscap` into a non-standard
   location that cannot be found by the fact in the default path
 
-Default value: ``false``
+Default value: `false`
 
 ## Data types
 
-### `Openscap::Profile`
+### <a name="Openscap--Profile"></a>`Openscap::Profile`
 
 Valid OpenSCAP profile names
 

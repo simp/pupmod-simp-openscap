@@ -105,7 +105,7 @@ class openscap::schedule (
       mode   => '0600',
     }
 
-    $host = $facts['fqdn']
+    $host = $facts['networking']['fqdn']
     cron { 'openscap':
       command  => template('openscap/oscap_command.erb'),
       user     => 'root',
