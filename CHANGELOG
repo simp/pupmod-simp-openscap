@@ -1,3 +1,6 @@
+* Wed Jan 17 2024 Richard Gardner <rick@sicura.us> - 6.8.1
+- Updated hiera.yaml facts to support puppet 8
+
 * Mon Oct 23 2023 Steven Pritchard <steve@sicura.us> - 6.8.0
 - [puppetsync] Add EL9 support
 
