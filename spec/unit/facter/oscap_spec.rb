@@ -6,7 +6,7 @@ describe 'oscap' do
   end
 
   before :each do
-    allow(Facter::Core::Execution).to receive(:which).with('oscap').and_return('/bin/oscap').at_least_once
+    allow(Facter::Core::Execution).to receive(:which).with('oscap').and_return('/bin/oscap').at_least(:once)
     allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<-EOM
 OpenSCAP command line tool (oscap) 1.2.16
 Copyright 2009--2017 Red Hat Inc., Durham, North Carolina.
@@ -39,7 +39,7 @@ Probes: /usr/libexec/openscap
       @data_streams['/usr/share/xml/scap/ssg/content/' + File.basename(stream)] = IO.read(stream)
     end
 
-    allow(Dir).to receive(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').and_return(@data_streams.keys).at_least_once
+    allow(Dir).to receive(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').and_return(@data_streams.keys).at_least(:once)
   end
 
   context 'with a valid environment' do
