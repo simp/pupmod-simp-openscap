@@ -6,8 +6,8 @@ describe 'oscap' do
   end
 
   before :each do
-    Facter::Core::Execution.stubs(:which).with('oscap').returns('/bin/oscap').at_least_once
-    Facter::Core::Execution.stubs(:execute).with('/bin/oscap version').returns(<<-EOM
+    allow(Facter::Core::Execution).to receive(:which).with('oscap').and_return('/bin/oscap').at_least(:once)
+    allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<-EOM
 OpenSCAP command line tool (oscap) 1.2.16
 Copyright 2009--2017 Red Hat Inc., Durham, North Carolina.
 
@@ -39,7 +39,7 @@ Probes: /usr/libexec/openscap
       @data_streams['/usr/share/xml/scap/ssg/content/' + File.basename(stream)] = IO.read(stream)
     end
 
-    Dir.stubs(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').returns(@data_streams.keys).at_least_once
+    allow(Dir).to receive(:glob).with('/usr/share/xml/scap/*/content/*-ds.xml').and_return(@data_streams.keys).at_least(:once)
   end
 
   context 'with a valid environment' do
@@ -61,7 +61,7 @@ Probes: /usr/libexec/openscap
 
     it 'returns a valid hash of all available profiles' do
       @data_streams.each_pair do |stream, content|
-        File.stubs(:read).with(stream).returns(content)
+        allow(File).to receive(:read).with(stream).and_return(content)
       end
 
       value = Facter.fact(:oscap).value
@@ -90,9 +90,9 @@ Probes: /usr/libexec/openscap
       i = 0
       @data_streams.each_pair do |stream, content|
         if ( (i % 2) == 1 )
-          File.stubs(:read).with(stream).returns("Look, some random garbage with Profile and title!")
+          allow(File).to receive(:read).with(stream).and_return("Look, some random garbage with Profile and title!")
         else
-          File.stubs(:read).with(stream).returns(content)
+          allow(File).to receive(:read).with(stream).and_return(content)
         end
 
         i += 1
@@ -122,7 +122,7 @@ Probes: /usr/libexec/openscap
   context 'with all invalid oscap output' do
     it 'returns only the valid portions' do
       @data_streams.each_pair do |stream, content|
-        File.stubs(:read).with(stream).returns("\n")
+        allow(File).to receive(:read).with(stream).and_return("\n")
       end
 
       value = Facter.fact(:oscap).value
