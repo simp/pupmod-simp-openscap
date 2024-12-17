@@ -45,13 +45,13 @@ Facter.add('oscap') do
 
     # Get the version of oscap on the system
     if version_info =~ %r{^\s*OpenSCAP command line tool.*(\d+\.\d+\.\d+)$}
-      retval['version'] = $1.strip
+      retval['version'] = Regexp.last_match(1).strip
     end
 
     # Now get the supported versions of the various specs
     if version_info =~ %r{=+ Supported specifications =+(.*?)(^\s*$|=+)}m
-      retval['supported_specifications'] = $1.lines.map do |l|
-        id, ver = l.split(/\s*Version:\s*/)
+      retval['supported_specifications'] = Regexp.last_match(1).lines.map do |l|
+        id, ver = l.split(%r{\s*Version:\s*})
 
         if id && ver
           [id.strip, ver.strip]
@@ -68,30 +68,27 @@ Facter.add('oscap') do
 
     # Get the available profiles on the system
     Dir.glob('/usr/share/xml/scap/*/content/*-ds.xml').each do |data_stream|
-      begin
-        path = File.dirname(data_stream)
-        ds = File.basename(data_stream, '.xml')
+      path = File.dirname(data_stream)
+      ds = File.basename(data_stream, '.xml')
 
-        # Full XML processing takes too long so we'll do it slightly more efficiently
-        entries = File.read(data_stream).scan(%r{(?:<(?:.+:)?Profile\s+id="(.+)">|<(?:.+:)?title\s+.+>(.*?)</title>)})
+      # Full XML processing takes too long so we'll do it slightly more efficiently
+      entries = File.read(data_stream).scan(%r{(?:<(?:.+:)?Profile\s+id="(.+)">|<(?:.+:)?title\s+.+>(.*?)</title>)})
 
-        if entries && !entries.empty?
-          entries = entries.flatten.compact
+      if entries && !entries.empty?
+        entries = entries.flatten.compact
 
-          entries.each_with_index do |x,i|
-            if x.start_with?('xccdf_org.ssg')
+        entries.each_with_index do |x, i|
+          next unless x.start_with?('xccdf_org.ssg')
 
-              retval['profiles'] ||= {}
-              retval['profiles'][path] ||= {}
-              retval['profiles'][path][ds] ||= {}
+          retval['profiles'] ||= {}
+          retval['profiles'][path] ||= {}
+          retval['profiles'][path][ds] ||= {}
 
-              retval['profiles'][path][ds][x] = entries[i+1]
-            end
-          end
+          retval['profiles'][path][ds][x] = entries[i + 1]
         end
-      rescue => e
-        Facter.log_exception(e, "oscap: Error processing data stream '#{data_stream}'")
       end
+    rescue => e
+      Facter.log_exception(e, "oscap: Error processing data stream '#{data_stream}'")
     end
 
     retval

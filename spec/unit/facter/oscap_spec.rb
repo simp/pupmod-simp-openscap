@@ -3,11 +3,8 @@ require 'spec_helper'
 describe 'oscap' do
   before :each do
     Facter.clear
-  end
-
-  before :each do
     allow(Facter::Core::Execution).to receive(:which).with('oscap').and_return('/bin/oscap').at_least(:once)
-    allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<-EOM
+    allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<-EOM,
 OpenSCAP command line tool (oscap) 1.2.16
 Copyright 2009--2017 Red Hat Inc., Durham, North Carolina.
 
@@ -29,13 +26,11 @@ Schema files: /usr/share/openscap/schemas
 Default CPE files: /usr/share/openscap/cpe
 Probes: /usr/libexec/openscap
       EOM
-    )
-  end
+                                                                                             )
 
-  before :each do
     @data_streams = {}
 
-    Dir.glob(File.join(fixtures, 'ssg_samples', "*-ds.xml")).each do |stream|
+    Dir.glob(File.join(fixtures, 'ssg_samples', '*-ds.xml')).each do |stream|
       @data_streams['/usr/share/xml/scap/ssg/content/' + File.basename(stream)] = IO.read(stream)
     end
 
@@ -72,11 +67,11 @@ Probes: /usr/libexec/openscap
       ds_level = value['profiles']['/usr/share/xml/scap/ssg/content']
       expect(ds_level).to be_a(Hash)
 
-      ds_level.each_pair do |ds, profile|
+      ds_level.each_pair do |_ds, profile|
         expect(profile).to be_a(Hash)
 
         profile.each_pair do |k, v|
-          expect(k).to match(/^xccdf_org\.ssgproject\./)
+          expect(k).to match(%r{^xccdf_org\.ssgproject\.})
           if v
             expect(v).to be_a(String)
           end
@@ -89,8 +84,8 @@ Probes: /usr/libexec/openscap
     it 'returns only the valid portions' do
       i = 0
       @data_streams.each_pair do |stream, content|
-        if ( (i % 2) == 1 )
-          allow(File).to receive(:read).with(stream).and_return("Look, some random garbage with Profile and title!")
+        if i.odd?
+          allow(File).to receive(:read).with(stream).and_return('Look, some random garbage with Profile and title!')
         else
           allow(File).to receive(:read).with(stream).and_return(content)
         end
@@ -106,11 +101,11 @@ Probes: /usr/libexec/openscap
       ds_level = value['profiles']['/usr/share/xml/scap/ssg/content']
       expect(ds_level).to be_a(Hash)
 
-      ds_level.each_pair do |ds, profile|
+      ds_level.each_pair do |_ds, profile|
         expect(profile).to be_a(Hash)
 
         profile.each_pair do |k, v|
-          expect(k).to match(/^xccdf_org\.ssgproject\./)
+          expect(k).to match(%r{^xccdf_org\.ssgproject\.})
           if v
             expect(v).to be_a(String)
           end
@@ -121,7 +116,7 @@ Probes: /usr/libexec/openscap
 
   context 'with all invalid oscap output' do
     it 'returns only the valid portions' do
-      @data_streams.each_pair do |stream, content|
+      @data_streams.each_pair do |stream, _content|
         allow(File).to receive(:read).with(stream).and_return("\n")
       end
 

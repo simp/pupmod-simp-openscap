@@ -10,12 +10,11 @@ end
 
 describe 'openscap::schedule' do
   on_supported_os.each do |os, os_facts|
-
-    context "on #{os}", skip: (os =~ /rocky/i ? 'Rocky Linux does not currently have any officially supported ssg streams' : nil) do
+    context "on #{os}", skip: ((os =~ %r{rocky}i) ? 'Rocky Linux does not currently have any officially supported ssg streams' : nil) do
       context 'with a valid environment' do
-        let(:facts) {
+        let(:facts) do
           oscap_fact = {
-            :oscap => {
+            oscap: {
               'path' => '/bin/oscap',
               'version' => '1.2.16',
               'supported_specifications' => {
@@ -33,60 +32,72 @@ describe 'openscap::schedule' do
           }
 
           os_facts.merge(oscap_fact)
-        }
+        end
 
-        let(:params) {{
-          :scap_profile => 'xccdf_org.ssgproject.content_profile_standard',
-          :ssg_data_stream => "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml"
-        }}
+        let(:params) do
+          {
+            scap_profile: 'xccdf_org.ssgproject.content_profile_standard',
+         ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml"
+          }
+        end
 
         it_behaves_like 'a working module'
         command = "/bin/oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_standard --results /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.xml --report /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.html /usr/share/xml/scap/ssg/content/ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml\n"
-        it { is_expected.to create_cron('openscap') \
-         .with_command(command) }
+        it {
+          is_expected.to create_cron('openscap') \
+            .with_command(command)
+        }
 
         context 'with logrotate => true' do
-          let(:params) {{
-            :scap_profile => 'xccdf_org.ssgproject.content_profile_standard',
-            :ssg_data_stream => "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
-            :logrotate => true
-          }}
+          let(:params) do
+            {
+              scap_profile: 'xccdf_org.ssgproject.content_profile_standard',
+           ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
+           logrotate: true
+            }
+          end
 
           it_behaves_like 'a working module'
           it { is_expected.to create_class('logrotate') }
-          it { is_expected.to create_logrotate__rule('openscap').with(
-            { :log_files => [ '/var/log/openscap/*.xml' ] }
-          )  }
+          it {
+            is_expected.to create_logrotate__rule('openscap').with(
+            { log_files: [ '/var/log/openscap/*.xml' ] },
+          )
+          }
         end
 
         context 'when the specified ssg_base_dir is not found' do
-          let(:params){{ :ssg_base_dir => '/not/here' }}
+          let(:params) { { ssg_base_dir: '/not/here' } }
 
-          it { expect{is_expected.to compile.with_all_deps}.to raise_error(/No SCAP Data Streams found under/) }
+          it { expect { is_expected.to compile.with_all_deps }.to raise_error(%r{No SCAP Data Streams found under}) }
         end
 
         context 'when the specified ssg_data_stream is not found' do
-          let(:params){{ :ssg_data_stream => '/not/here.xml' }}
+          let(:params) { { ssg_data_stream: '/not/here.xml' } }
 
-          it { expect{is_expected.to compile.with_all_deps}.to raise_error(/Could not find SCAP Data Stream/) }
+          it { expect { is_expected.to compile.with_all_deps }.to raise_error(%r{Could not find SCAP Data Stream}) }
         end
 
         context 'when the specified scap_profile is not found' do
-          let(:params){{
-            :ssg_data_stream => facts[:oscap]['profiles']['/usr/share/xml/scap/ssg/content'].keys.first + '.xml',
-            :scap_profile => 'xccdf_foo_profile_meh'
-          }}
+          let(:params) do
+            {
+              ssg_data_stream: facts[:oscap]['profiles']['/usr/share/xml/scap/ssg/content'].keys.first + '.xml',
+           scap_profile: 'xccdf_foo_profile_meh'
+            }
+          end
 
-          it { expect{is_expected.to compile.with_all_deps}.to raise_error(/Could not find SCAP Profile/) }
+          it { expect { is_expected.to compile.with_all_deps }.to raise_error(%r{Could not find SCAP Profile}) }
         end
       end
 
       context 'when forcing the installation' do
         let(:facts) { os_facts }
 
-        let(:params) {{
-          :force => true
-        }}
+        let(:params) do
+          {
+            force: true
+          }
+        end
 
         it_behaves_like 'a working module'
       end
@@ -99,9 +110,9 @@ describe 'openscap::schedule' do
       end
 
       context 'when no profiles were found on the system' do
-        let(:facts) {
+        let(:facts) do
           oscap_fact = {
-            :oscap => {
+            oscap: {
               'path' => '/bin/oscap',
               'version' => '1.2.16',
               'supported_specifications' => {
@@ -112,9 +123,9 @@ describe 'openscap::schedule' do
           }
 
           os_facts.merge(oscap_fact)
-        }
+        end
 
-        it { expect{is_expected.to compile.with_all_deps}.to raise_error(/No SCAP Profiles found/) }
+        it { expect { is_expected.to compile.with_all_deps }.to raise_error(%r{No SCAP Profiles found}) }
       end
     end
   end
