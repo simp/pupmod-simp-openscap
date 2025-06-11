@@ -42,7 +42,9 @@ describe 'openscap::schedule' do
         end
 
         it_behaves_like 'a working module'
+        # rubocop:disable Layout/LineLength
         command = "/bin/oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_standard --results /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.xml --report /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.html /usr/share/xml/scap/ssg/content/ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml\n"
+        # rubocop:enable Layout/LineLength
         it {
           is_expected.to create_cron('openscap') \
             .with_command(command)

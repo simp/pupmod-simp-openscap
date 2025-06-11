@@ -28,6 +28,7 @@ Probes: /usr/libexec/openscap
       EOM
                                                                                              )
 
+    # rubocop:disable RSpec/InstanceVariable
     @data_streams = {}
 
     Dir.glob(File.join(fixtures, 'ssg_samples', '*-ds.xml')).each do |stream|
@@ -126,4 +127,5 @@ Probes: /usr/libexec/openscap
       expect(value['profiles']).to be_nil
     end
   end
+  # rubocop:enable RSpec/InstanceVariable
 end
