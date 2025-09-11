@@ -19,16 +19,16 @@ describe 'openscap::schedule' do
               'version' => '1.2.16',
               'supported_specifications' => {
                 'XCCDF' => '1.2',
-                'OVAL' => '5.11.1'
+                'OVAL' => '5.11.1',
               },
               'profiles' => {
                 '/usr/share/xml/scap/ssg/content' => {
                   "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds" => {
-                    'xccdf_org.ssgproject.content_profile_standard' => 'Standard System Security Profile'
-                  }
-                }
-              }
-            }
+                    'xccdf_org.ssgproject.content_profile_standard' => 'Standard System Security Profile',
+                  },
+                },
+              },
+            },
           }
 
           os_facts.merge(oscap_fact)
@@ -37,7 +37,7 @@ describe 'openscap::schedule' do
         let(:params) do
           {
             scap_profile: 'xccdf_org.ssgproject.content_profile_standard',
-         ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml"
+            ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
           }
         end
 
@@ -54,8 +54,8 @@ describe 'openscap::schedule' do
           let(:params) do
             {
               scap_profile: 'xccdf_org.ssgproject.content_profile_standard',
-           ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
-           logrotate: true
+              ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
+              logrotate: true,
             }
           end
 
@@ -63,8 +63,8 @@ describe 'openscap::schedule' do
           it { is_expected.to create_class('logrotate') }
           it {
             is_expected.to create_logrotate__rule('openscap').with(
-            { log_files: [ '/var/log/openscap/*.xml' ] },
-          )
+              log_files: [ '/var/log/openscap/*.xml' ],
+            )
           }
         end
 
@@ -84,7 +84,7 @@ describe 'openscap::schedule' do
           let(:params) do
             {
               ssg_data_stream: facts[:oscap]['profiles']['/usr/share/xml/scap/ssg/content'].keys.first + '.xml',
-           scap_profile: 'xccdf_foo_profile_meh'
+              scap_profile: 'xccdf_foo_profile_meh',
             }
           end
 
@@ -97,7 +97,7 @@ describe 'openscap::schedule' do
 
         let(:params) do
           {
-            force: true
+            force: true,
           }
         end
 
@@ -119,9 +119,9 @@ describe 'openscap::schedule' do
               'version' => '1.2.16',
               'supported_specifications' => {
                 'XCCDF' => '1.2',
-                'OVAL' => '5.11.1'
-              }
-            }
+                'OVAL' => '5.11.1',
+              },
+            },
           }
 
           os_facts.merge(oscap_fact)

@@ -4,7 +4,7 @@ test_name 'openscap class'
 
 describe 'openscap' do
   let(:manifest) do
-    <<-EOS
+    <<~EOS
       include 'openscap'
     EOS
   end

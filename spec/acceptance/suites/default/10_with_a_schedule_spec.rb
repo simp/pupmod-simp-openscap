@@ -9,16 +9,16 @@ describe 'openscap' do
   require 'puppet'
 
   let(:manifest) do
-    <<-EOS
+    <<~EOS
       include 'openscap'
     EOS
   end
 
   let(:hieradata) do
-    <<-EOS
----
-simp_options::logrotate: true
-openscap::enable_schedule: true
+    <<~EOS
+      ---
+      simp_options::logrotate: true
+      openscap::enable_schedule: true
     EOS
   end
 

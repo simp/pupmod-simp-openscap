@@ -4,29 +4,28 @@ describe 'oscap' do
   before :each do
     Facter.clear
     allow(Facter::Core::Execution).to receive(:which).with('oscap').and_return('/bin/oscap').at_least(:once)
-    allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<-EOM,
-OpenSCAP command line tool (oscap) 1.2.16
-Copyright 2009--2017 Red Hat Inc., Durham, North Carolina.
+    allow(Facter::Core::Execution).to receive(:execute).with('/bin/oscap version').and_return(<<~EOM)
+      OpenSCAP command line tool (oscap) 1.2.16
+      Copyright 2009--2017 Red Hat Inc., Durham, North Carolina.
 
-==== Supported specifications ====
-XCCDF Version: 1.2
-OVAL Version: 5.11.1
-CPE Version: 2.3
-CVSS Version: 2.0
-CVE Version: 2.0
-Asset Identification Version: 1.1
-Asset Reporting Format Version: 1.1
-CVRF Version: 1.1
+      ==== Supported specifications ====
+      XCCDF Version: 1.2
+      OVAL Version: 5.11.1
+      CPE Version: 2.3
+      CVSS Version: 2.0
+      CVE Version: 2.0
+      Asset Identification Version: 1.1
+      Asset Reporting Format Version: 1.1
+      CVRF Version: 1.1
 
-==== Capabilities added by auto-loaded plugins ====
-No plugins have been auto-loaded...
+      ==== Capabilities added by auto-loaded plugins ====
+      No plugins have been auto-loaded...
 
-==== Paths ====
-Schema files: /usr/share/openscap/schemas
-Default CPE files: /usr/share/openscap/cpe
-Probes: /usr/libexec/openscap
-      EOM
-                                                                                             )
+      ==== Paths ====
+      Schema files: /usr/share/openscap/schemas
+      Default CPE files: /usr/share/openscap/cpe
+      Probes: /usr/libexec/openscap
+    EOM
 
     # rubocop:disable RSpec/InstanceVariable
     @data_streams = {}
