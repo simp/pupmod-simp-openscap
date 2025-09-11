@@ -1,3 +1,6 @@
+* Tue Jun 10 2025 Chris Tessmer <chris.tessmer@onyxpoint.com> - 6.8.2
+- Fix rubocop issues
+
 * Wed Jan 17 2024 Richard Gardner <rick@sicura.us> - 6.8.1
 - Updated hiera.yaml facts to support puppet 8
 
