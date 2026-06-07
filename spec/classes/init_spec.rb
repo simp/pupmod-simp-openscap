@@ -3,11 +3,9 @@ require 'spec_helper'
 describe 'openscap' do
   on_supported_os.each do |os, facts|
     context "on #{os}", skip: ((os =~ %r{rocky}i) ? 'Rocky Linux does not currently have any officially supported ssg streams' : nil) do
-      base_facts = facts.merge({ spec_title: description })
+      let(:facts) { facts.merge({ spec_title: os }) }
 
       describe 'base' do
-        let(:facts) { base_facts }
-
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_class('openscap') }
 
@@ -17,7 +15,6 @@ describe 'openscap' do
       end
 
       describe 'with enable_schedule=true' do
-        let(:facts) { base_facts }
         let(:params) { { enable_schedule: true } }
 
         it { is_expected.to create_class('openscap::schedule') }
