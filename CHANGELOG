@@ -1,3 +1,11 @@
+* Mon Jun 08 2026 Steven Pritchard <steven.pritchard@gmail.com> - 7.0.0
+- Switch `requirements` from `puppet` to `openvox` (>= 8 < 9)
+- Point `issues_url` at GitHub Issues
+- Drop end-of-life OS support (CentOS 8, EL7); list EL10 across all supported distros
+- Allow newer SIMP module dependencies (see metadata.json diff)
+- Sync Gemfile with current puppetsync baseline (adds OpenVox to test gems)
+- Drop Puppet 7 / Ruby 2.7 from GitHub Actions; use Ruby 3.2.11 with OpenVox 8 and 3.4.9 elsewhere
+
 * Tue Jun 10 2025 Chris Tessmer <chris.tessmer@onyxpoint.com> - 6.8.2
 - Fix rubocop issues
 
