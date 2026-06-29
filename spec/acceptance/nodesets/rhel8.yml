@@ -1,17 +1,17 @@
 ---
 HOSTS:
-  almalinux9:
+  rhel8:
     roles:
     - default
     - master
     - server
-    - el9
-    platform: el-9-x86_64
-    box: almalinux/9
+    - el8
+    platform: el-8-x86_64
+    box: generic/rhel8
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     vagrant_memsize: 2048
     vagrant_cpus: 2
-    family: almalinux-cloud/almalinux-9
+    family: rhel-cloud/rhel-8
     gce_machine_type: n1-standard-2
 CONFIG:
   log_level: verbose

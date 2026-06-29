@@ -20,13 +20,16 @@ group :syntax do
 end
 
 group :test do
-  puppet_version = ENV.fetch('PUPPET_VERSION', ['>= 7', '< 9'])
+  puppet_version = ENV.fetch('PUPPET_VERSION', ['>= 8', '< 9'])
+  openvox_version = ENV.fetch('OPENVOX_VERSION', puppet_version)
   major_puppet_version = Array(puppet_version).first.scan(%r{(\d+)(?:\.|\Z)}).flatten.first.to_i
   gem 'hiera-puppet-helper'
-  gem 'pathspec', '~> 0.2' if Gem::Requirement.create('< 2.6').satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
   # renovate: datasource=rubygems versioning=ruby
   gem('pdk', ENV.fetch('PDK_VERSION', ['>= 2.0', '< 4.0']), require: false) if major_puppet_version > 5
-  gem 'puppet', puppet_version
+  # Temporarily include both openvox and puppet gems until the puppet dependency is removed from other gems
+  ['openvox', 'puppet'].each do |gem_name|
+    gem gem_name, binding.local_variable_get("#{gem_name}_version".to_sym)
+  end
   gem 'puppetlabs_spec_helper', '~> 8.0.0'
   gem 'puppet-strings'
   gem 'rake'
@@ -36,6 +39,7 @@ group :test do
   gem 'simp-rake-helpers', ENV.fetch('SIMP_RAKE_HELPERS_VERSION', '~> 5.24.0')
   # renovate: datasource=rubygems versioning=ruby
   gem 'simp-rspec-puppet-facts', ENV.fetch('SIMP_RSPEC_PUPPET_FACTS_VERSION', '~> 4.0.0')
+  gem 'syslog', require: false
 end
 
 group :development do
