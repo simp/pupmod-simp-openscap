@@ -8,7 +8,7 @@
 # The next baseline sync will overwrite any local changes made to this file.
 # ------------------------------------------------------------------------------
 
-require 'puppetlabs_spec_helper/module_spec_helper'
+require 'voxpupuli/test/spec_helper'
 require 'rspec-puppet'
 require 'simp/rspec-puppet-facts'
 include Simp::RspecPuppetFacts

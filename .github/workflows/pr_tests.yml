@@ -86,7 +86,7 @@ jobs:
           bundle exec rake pkg:compare_latest_tag[,true]
           bundle exec rake pkg:create_tag_changelog
       - name: 'Test-build the Puppet module'
-        run: 'bundle exec pdk build --force'
+        run: 'bundle exec rake pupmod:build'
 
   spec-tests:
     name: 'Puppet Spec'
@@ -95,9 +95,19 @@ jobs:
     strategy:
       matrix:
         puppet:
-          - label: 'Puppet 8.x'
+          - label: 'OpenVox 8.x (Ruby 3.2)'
             puppet_version: '~> 8.0'
             ruby_version: '3.2'
+            experimental: false
+          - label: 'OpenVox 8.x (Ruby 3.4)'
+            puppet_version: '~> 8.0'
+            ruby_version: '3.4'
+            experimental: false
+          # OpenVox 9 is unreleased; preview the future Ruby 4.0 / OpenVox 9
+          # combo by running the OpenVox 8 gem on Ruby 4.0.
+          - label: 'OpenVox 9.x preview (Ruby 4.0, OpenVox 8 gem)'
+            puppet_version: '~> 8.0'
+            ruby_version: '4.0'
             experimental: false
       fail-fast: false
     env:

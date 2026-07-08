@@ -7,5 +7,3 @@ fixtures:
     logrotate: https://github.com/simp/pupmod-simp-logrotate.git
     simplib: https://github.com/simp/pupmod-simp-simplib.git
     stdlib: https://github.com/simp/puppetlabs-stdlib.git
-  symlinks:
-    openscap: "#{source_dir}"
