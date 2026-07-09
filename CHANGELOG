@@ -1,3 +1,6 @@
+* Thu Jul 09 2026 Steven Pritchard <steve@sicura.us> - 7.0.1
+- Resolved puppet-lint manifest whitespace offenses
+
 * Mon Jun 08 2026 Steven Pritchard <steven.pritchard@gmail.com> - 7.0.0
 - Switch `requirements` from `puppet` to `openvox` (>= 8 < 9)
 - Point `issues_url` at GitHub Issues
