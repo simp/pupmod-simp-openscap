@@ -86,7 +86,7 @@
 * Mon Feb 05 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.0.4-0
 - Asset update
 
-* Wed Nov 28 2017 Brandon Riden <brandon.riden@onyxpoint.com> - 6.0.3-0
+* Tue Nov 28 2017 Brandon Riden <brandon.riden@onyxpoint.com> - 6.0.3-0
 - Changed Openscap::Profile type to use regex match on profiles rather than the Enum.
 - Added hieradata to module to specify scap_profile and ssg_data_stream based
   on OS (RedHat 6, RedHat 7, CentOS 6, and CentOS 7)
