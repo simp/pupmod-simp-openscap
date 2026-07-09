@@ -238,8 +238,6 @@ Puppet range is `>= 7 < 9`. `spec/spec_helper.rb` uses
 - Guard the schedule with the `oscap`-fact validation (or `$force`) as
   `schedule.pp` does — don't install a cron scan for a profile/data stream that
   doesn't exist on the node.
-- `Gemfile`, `spec/spec_helper.rb`, and `.github/workflows/pr_tests.yml` carry a
-  **puppetsync** notice — they are baseline-managed and the next sync overwrites
-  local edits. Push changes to those files upstream to the baseline, not here.
+- Several baseline files carry a **puppetsync** notice — e.g. `Gemfile`, `spec/spec_helper.rb`, `.github/workflows/pr_tests.yml`, and the `.gitignore`/`.pdkignore` dotfiles — so they are baseline-managed and the next sync overwrites local edits. Check each file's header for the notice rather than treating this list as exhaustive; push changes to any such file upstream to the baseline, not here.
 - Match the existing 2-space Puppet indentation and aligned-arrow parameter style
   used in the manifests.
