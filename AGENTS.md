@@ -68,7 +68,7 @@ and consumers `include` them directly.
     data streams under the base dir, missing data stream, missing profile
     (`schedule.pp`).
   - When the `oscap` fact is absent, it emits a `notify` at `warning` loglevel and
-    sets `$_set_schedule = false` — the schedule is silently skipped
+    sets `$_set_schedule = false` — the schedule is skipped (but the warning is logged)
     (`schedule.pp`).
   - When `$_set_schedule`, it declares `file { $logdir }` (`ensure => directory`,
     `mode => '0600'`) and `cron { 'openscap' }` whose command is rendered from
@@ -95,7 +95,7 @@ and consumers `include` them directly.
 
 ### Gotchas / non-obvious details
 
-- **The schedule is silently skipped when `oscap` is not installed.** Without
+- **The schedule is skipped (with a warning) when `oscap` is not installed.** Without
   `$force`, if the `oscap` fact is absent no cron job is created — only a
   `warning` notify is emitted (`schedule.pp`). The fact itself is `confine`d
   to hosts that already have `oscap` on the PATH *and* SSG data streams present
