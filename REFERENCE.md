@@ -144,7 +144,7 @@ Data type: `Boolean`
 
 If true, use logrotate to rotate the output logs.
 
-Default value: `simplib::lookup('simp_options::logrotate', { 'default_value' => false})`
+Default value: `simplib::lookup('simp_options::logrotate', { 'default_value' => false })`
 
 ##### <a name="-openscap--schedule--minute"></a>`minute`
 

@@ -30,7 +30,9 @@ describe 'oscap' do
     # rubocop:disable RSpec/InstanceVariable
     @data_streams = {}
 
-    Dir.glob(File.join(fixtures, 'ssg_samples', '*-ds.xml')).each do |stream|
+    fixtures_dir = File.expand_path(File.join(__dir__, '..', '..', 'fixtures'))
+
+    Dir.glob(File.join(fixtures_dir, 'ssg_samples', '*-ds.xml')).each do |stream|
       @data_streams['/usr/share/xml/scap/ssg/content/' + File.basename(stream)] = IO.read(stream)
     end
 
