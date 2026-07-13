@@ -18,7 +18,6 @@ class openscap (
   String $scap_ensure = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   String $ssg_ensure  = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
 ) {
-
   simplib::assert_metadata($module_name)
 
   if $enable_schedule {

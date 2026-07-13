@@ -57,7 +57,7 @@ class openscap::schedule (
   Boolean                          $fetch_remote_resources = false,
   Optional[Stdlib::Absolutepath]   $scap_tailoring_file    = undef,
   Stdlib::Absolutepath             $logdir                 = '/var/log/openscap',
-  Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false}),
+  Boolean                          $logrotate              = simplib::lookup('simp_options::logrotate', { 'default_value' => false }),
   Simplib::Cron::Minute            $minute                 = 30,
   Simplib::Cron::Hour              $hour                   = 1,
   Simplib::Cron::MonthDay          $monthday               = '*',
@@ -120,7 +120,7 @@ class openscap::schedule (
       include 'logrotate'
 
       logrotate::rule { 'openscap':
-        log_files                 => [ "${logdir}/*.xml" ],
+        log_files                 => ["${logdir}/*.xml"],
         missingok                 => true,
         rotate_period             => 'daily',
         rotate                    => 3,
