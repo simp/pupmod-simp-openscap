@@ -14,7 +14,7 @@ group :syntax do
   # rubocop, rubocop-rake, and rubocop-rspec are pulled in and version-pinned by
   # voxpupuli-test (via simp-rake-helpers); pinning them here conflicts with its
   # constraints.
-  gem 'rubocop-performance', '~> 1.26.0'
+  gem 'rubocop-performance', '~> 1.27.0'
 end
 
 group :test do
