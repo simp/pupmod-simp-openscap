@@ -41,11 +41,10 @@ describe 'openscap::schedule' do
           }
         end
 
-        # rubocop:disable Layout/LineLength
+        # rubocop:disable-next Layout/LineLength
         let(:command) do
           "/bin/oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_standard --results /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.xml --report /var/log/openscap/foo.example.com-ssg-results-xccdf_org.ssgproject.content_profile_standard-`date +%Y%m%d%H%M%S`.html /usr/share/xml/scap/ssg/content/ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml\n"
         end
-        # rubocop:enable Layout/LineLength
 
         it_behaves_like 'a working module'
 
