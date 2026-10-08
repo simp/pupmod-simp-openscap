@@ -205,4 +205,3 @@ Default value: `false`
 Valid OpenSCAP profile names
 
 Alias of `Pattern[/xccdf_[^_]+_profile_.+/]`
-
