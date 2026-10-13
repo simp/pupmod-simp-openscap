@@ -1,3 +1,7 @@
+* Thu Oct 08 2026 Steven Pritchard <steve@sicura.us> - 7.1.0
+- Add support for OpenVox 9
+- Update metadata.json dependency ranges from the Forge
+
 * Mon Aug 24 2026 Steven Pritchard <steve@sicura.us> - 7.0.2
 - [puppetsync] Update metadata.json dependency ranges from the Forge
 
