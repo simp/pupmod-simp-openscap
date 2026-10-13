@@ -15,6 +15,4 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 256
-<% if ENV['BEAKER_PUPPET_COLLECTION'] -%>
-  puppet_collection: <%= ENV['BEAKER_PUPPET_COLLECTION'] %>
-<% end -%>
+  puppet_collection: <%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'openvox9') %>
