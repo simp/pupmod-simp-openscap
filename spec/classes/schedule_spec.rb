@@ -71,6 +71,21 @@ describe 'openscap::schedule' do
           }
         end
 
+        context 'with fetch_remote_resources => true' do
+          let(:params) do
+            {
+              scap_profile: 'xccdf_org.ssgproject.content_profile_standard',
+              ssg_data_stream: "ssg-#{os_facts[:operatingsystem].downcase}#{os_facts[:operatingsystemmajrelease]}-ds.xml",
+              fetch_remote_resources: true,
+            }
+          end
+
+          it_behaves_like 'a working module'
+          it {
+            is_expected.to create_cron('openscap').with_command(%r{--fetch-remote-resources})
+          }
+        end
+
         context 'when the specified ssg_base_dir is not found' do
           let(:params) { { ssg_base_dir: '/not/here' } }
 

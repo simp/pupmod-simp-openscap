@@ -90,7 +90,7 @@ and consumers `include` them directly.
 
 - **`templates/oscap_command.erb`** — builds the `oscap xccdf eval` command line:
   `--profile`, timestamped `--results`/`--report` files under `$logdir`, optional
-  `--tailoring-file` and `--fetch-remote_resources`, ending with
+  `--tailoring-file` and `--fetch-remote-resources`, ending with
   `${ssg_base_dir}/${ssg_data_stream}`.
 
 ### Gotchas / non-obvious details
@@ -126,9 +126,6 @@ and consumers `include` them directly.
 - **`logrotate` is a hard `metadata.json` dependency** but is only `include`d when
   `$logrotate` is true (`schedule.pp`); the `simp_options::logrotate`
   lookup defaults it to `false` (`schedule.pp`).
-- **The ERB emits `--fetch-remote_resources`** (with an underscore) rather than
-  the documented `--fetch-remote-resources`; verify against the target `oscap`
-  version before relying on remote-resource fetching (`templates/oscap_command.erb`).
 
 ## The `simp_options` / `simplib::lookup` seam
 
